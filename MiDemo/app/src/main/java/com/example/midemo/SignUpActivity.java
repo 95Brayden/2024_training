@@ -1,68 +1,47 @@
 package com.example.midemo;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
+import com.example.midemo.dao.UserDAO;
 
 public class SignUpActivity extends Activity {
-    // 调用Actvity
+    private UserDAO userDAO;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //关联activity_register.xml
         setContentView(R.layout.activity_sign_up);
-        // 关联用户名、密码、确认密码、邮箱和注册、返回登录按钮
-        EditText userName = (EditText) this.findViewById(R.id.UserNameEdit);
-        EditText passWord = (EditText) this.findViewById(R.id.PassWordEdit);
-        EditText passWordAgain = (EditText) this.findViewById(R.id.PassWordAgainEdit);
-        EditText email = (EditText) this.findViewById(R.id.EmailEdit);
-        Button signUpButton = (Button) this.findViewById(R.id.SignUpButton);
-        Button backLoginButton = (Button) this.findViewById(R.id.BackLoginButton);
 
-        // 立即注册按钮监听器
-        signUpButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String strUserName = userName.getText().toString().trim();
-                        String strPassWord = passWord.getText().toString().trim();
-                        String strPassWordAgain = passWordAgain.getText().toString().trim();
-                        String strPhoneNumber = email.getText().toString().trim();
-                        //注册格式粗检
-                        if (strUserName.length() > 10) {
-                            Toast.makeText(SignUpActivity.this, "用户名长度必须小于10！", Toast.LENGTH_SHORT).show();
-                        } else if (strUserName.length() < 4) {
-                            Toast.makeText(SignUpActivity.this, "用户名长度必须大于4！", Toast.LENGTH_SHORT).show();
-                        } else if (strPassWord.length() > 16) {
-                            Toast.makeText(SignUpActivity.this, "密码长度必须小于16！", Toast.LENGTH_SHORT).show();
-                        } else if (strPassWord.length() < 6) {
-                            Toast.makeText(SignUpActivity.this, "密码长度必须大于6！", Toast.LENGTH_SHORT).show();
-                        } else if (!strPassWord.equals(strPassWordAgain)) {
-                            Toast.makeText(SignUpActivity.this, "两次密码输入不一致！", Toast.LENGTH_SHORT).show();
-                        } else if (!strPhoneNumber.contains("@")) {
-                            Toast.makeText(SignUpActivity.this, "邮箱格式不正确！", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(SignUpActivity.this, "注册成功！", Toast.LENGTH_SHORT).show();
-                            // 跳转到登录界面
-                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        }
-                    }
-                }
-        );
-        // 返回登录按钮监听器
-        backLoginButton.setOnClickListener(
-                v -> {
-                    // 跳转到登录界面
-                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
-        );
+        EditText userName = this.findViewById(R.id.UserNameEdit);
+        EditText passWord = this.findViewById(R.id.PassWordEdit);
+        Button signUpButton = this.findViewById(R.id.SignUpButton);
+        ImageButton backButton = this.findViewById(R.id.BackButton);
 
+        userDAO = new UserDAO(this);
+        userDAO.open();
+
+        signUpButton.setOnClickListener(v -> {
+            String strUserName = userName.getText().toString().trim();
+            String strPassWord = passWord.getText().toString().trim();
+
+            if (!strUserName.isEmpty() && !strPassWord.isEmpty()) {
+                userDAO.addUser(strUserName, strPassWord);
+                Toast.makeText(SignUpActivity.this, "用户成功注册！", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(SignUpActivity.this, "请正确输入用户信息！", Toast.LENGTH_SHORT).show();
+            }
+        });
+        backButton.setOnClickListener(v -> finish());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        userDAO.close();
     }
 }
-

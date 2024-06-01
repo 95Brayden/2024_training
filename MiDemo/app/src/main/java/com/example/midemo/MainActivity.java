@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
         String password = intent.getStringExtra("password");
 
         // 设置欢迎信息
-        String welcomeMessage = "欢迎, " + username + "! 你的密码是 " + password;
+        String welcomeMessage = "欢迎, " + username + "!\n 你的密码是 " + password;
         welcomeTextView.setText(welcomeMessage);
     }
 }
