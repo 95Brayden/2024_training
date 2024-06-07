@@ -58,7 +58,7 @@
             android:id="@+id/frag_record_keyboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:keyBackground="@color/grey_f3f3f3"
+            android:keyBackground="@drawable/key_background"
             android:keyTextColor="@color/black"
             android:focusable="true"
             android:focusableInTouchMode="true"
