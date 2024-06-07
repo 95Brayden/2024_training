@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.midemo.Dialog.BeiZhuDialog;
+import com.example.midemo.Dialog.SelectTimeDialog;
 import com.example.midemo.R;
 import com.example.midemo.db.AccountBean;
 import com.example.midemo.db.TypeBean;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class BaseRecordFragment extends Fragment implements View.OnClickListener {
 
@@ -45,14 +48,43 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
     }
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.frag_record_tv_time) {
-
-        } else if (id == R.id.frag_record_tv_beizhu) {
-
+        switch (v.getId()) {
+            case R.id.frag_record_tv_time:
+                showTimeDialog();
+                break;
+            case R.id.frag_record_tv_beizhu:
+                showBZDialog();
+                break;
         }
     }
+    /* 弹出显示时间的对话框*/
+    private void showTimeDialog() {
+        SelectTimeDialog dialog = new SelectTimeDialog(Objects.requireNonNull(getContext()));
+        dialog.show();
+        //设定确定按钮被点击了的监听器
+        dialog.setOnEnsureListener((time, year, month, day) -> {
+            timeTv.setText(time);
+            accountBean.setTime(time);
+            accountBean.setYear(year);
+            accountBean.setMonth(month);
+            accountBean.setDay(day);
+        });
+    }
 
+    /* 弹出备注对话框*/
+    public  void showBZDialog(){
+        final BeiZhuDialog dialog = new BeiZhuDialog(getContext());
+        dialog.show();
+        dialog.setDialogSize();
+        dialog.setOnEnsureListener(() -> {
+            String msg = dialog.getEditText();
+            if (!TextUtils.isEmpty(msg)) {
+                beizhuTv.setText(msg);
+                accountBean.setBeizhu(msg);
+            }
+            dialog.cancel();
+        });
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

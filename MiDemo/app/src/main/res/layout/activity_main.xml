@@ -7,6 +7,7 @@
     <RelativeLayout
         android:id="@+id/main_top_layout"
         android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_height="50dp">
         <TextView
             android:text="@string/app_name"
@@ -46,18 +47,18 @@
         android:layout_margin="20dp"
         android:background="@drawable/main_morebtn_bg"/>
 
-    <Button
+    <android.widget.Button
         android:id="@+id/main_btn_edit"
-        android:layout_width="140dp"
+        android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_alignBottom="@id/main_btn_more"
+        android:background="@drawable/main_recordbtn_bg"
         android:layout_toLeftOf="@id/main_btn_more"
         android:text="@string/editone"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:drawableLeft="@mipmap/edit"
-        android:gravity="center_vertical"
-        android:background="@drawable/main_recordbtn_bg"
-        android:onClick="onClick"
-        />
+        android:onClick="onButtonClick"
+        android:gravity="center_vertical"/>
+
 </RelativeLayout>
