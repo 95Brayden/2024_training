@@ -13,6 +13,7 @@ import java.util.List;
  * 负责管理数据库的类
  *   主要对于表当中的内容进行操作，增删改查
  * */
+@SuppressLint("Range")
 public class DBManager {
     private static SQLiteDatabase db;
     /* 初始化数据库对象*/
@@ -24,7 +25,6 @@ public class DBManager {
      * 读取数据库当中的数据，写入内存集合里
      *   kind :表示收入或者支出
      * */
-    @SuppressLint("Range")
     public static List<TypeBean> getTypeList(int kind){
         List<TypeBean>list = new ArrayList<>();
         //读取typetb表当中的数据
@@ -78,5 +78,53 @@ public class DBManager {
             list.add(accountBean);
         }
         return list;
+    }
+    /**
+     * 获取某一天的支出或者收入的总金额   kind：支出==0    收入===1
+     * */
+    public static float getSumMoneyOneDay(int year,int month,int day,int kind){
+        float total = 0.0f;
+        String sql = "select sum(money) from accounttb where year=? and month=? and day=? and kind=?";
+        Cursor cursor = db.rawQuery(sql, new String[]{year + "", month + "", day + "", kind + ""});
+        // 遍历
+        if (cursor.moveToFirst()) {
+            total = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
+        }
+        return total;
+    }
+    /*
+     * 获取记账表当中某一月的所有支出或者收入情况
+     * */
+    public static List<AccountBean>getAccountListOneMonthFromAccounttb(int year,int month){
+        List<AccountBean>list = new ArrayList<>();
+        String sql = "select * from accounttb where year=? and month=? order by id desc";
+        Cursor cursor = db.rawQuery(sql, new String[]{year + "", month + ""});
+        //遍历符合要求的每一行数据
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndex("id"));
+            String typename = cursor.getString(cursor.getColumnIndex("typename"));
+            String beizhu = cursor.getString(cursor.getColumnIndex("beizhu"));
+            String time = cursor.getString(cursor.getColumnIndex("time"));
+            int sImageId = cursor.getInt(cursor.getColumnIndex("sImageId"));
+            int kind = cursor.getInt(cursor.getColumnIndex("kind"));
+            float money = cursor.getFloat(cursor.getColumnIndex("money"));
+            int day = cursor.getInt(cursor.getColumnIndex("day"));
+            AccountBean accountBean = new AccountBean(id, typename, sImageId, beizhu, money, time, year, month, day, kind);
+            list.add(accountBean);
+        }
+        return list;
+    }
+    /**
+     * 获取某一月的支出或者收入的总金额   kind：支出==0    收入===1
+     * */
+    public static float getSumMoneyOneMonth(int year,int month,int kind){
+        float total = 0.0f;
+        String sql = "select sum(money) from accounttb where year=? and month=? and kind=?";
+        Cursor cursor = db.rawQuery(sql, new String[]{year + "", month + "", kind + ""});
+        // 遍历
+        if (cursor.moveToFirst()) {
+            total = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
+        }
+        return total;
     }
 }

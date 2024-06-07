@@ -1,7 +1,11 @@
 package com.example.midemo;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -12,6 +16,7 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.midemo.Dialog.BudgetDialog;
 import com.example.midemo.adapter.AccountAdapter;
 import com.example.midemo.db.AccountBean;
 import com.example.midemo.db.DBManager;
@@ -35,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     View headerView;
     TextView topOutTv,topInTv,topbudgetTv,topConTv;
     ImageView topShowIv;
+    SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         initTime();
         initView();
+        preferences = getSharedPreferences("budget", Context.MODE_PRIVATE);
+
         //添加ListView的头布局
         addLVHeaderView();
         mDatas = new ArrayList<>();
@@ -93,9 +102,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.main_btn_more:
                 break;
             case R.id.item_mainlv_top_tv_budget:
+                showBudgetDialog();
                 break;
             case R.id.item_mainlv_top_iv_hide:
                 // 切换TextView明文和密文
+                toggleShow();
                 break;
         }
         if (v == headerView) {
@@ -108,6 +119,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         loadDBData();
+        setTopTvShow();
+    }
+
+    private void setTopTvShow() {
+        //获取今日支出和收入总金额，显示在view当中
+        float incomeOneDay = DBManager.getSumMoneyOneDay(year, month, day, 1);
+        float outcomeOneDay = DBManager.getSumMoneyOneDay(year, month, day, 0);
+        String infoOneDay = "今日支出 ￥"+outcomeOneDay+"  收入 ￥"+incomeOneDay;
+        topConTv.setText(infoOneDay);
+        //获取本月收入和支出总金额
+        float incomeOneMonth = DBManager.getSumMoneyOneMonth(year, month, 1);
+        float outcomeOneMonth = DBManager.getSumMoneyOneMonth(year, month, 0);
+        topInTv.setText("￥"+incomeOneMonth);
+        topOutTv.setText("￥"+outcomeOneMonth);
     }
 
     // 加载数据库数据
@@ -116,5 +141,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDatas.clear();
         mDatas.addAll(list);
         adapter.notifyDataSetChanged();
+    }
+    boolean isShow = true;
+    /**
+     * 点击头布局眼睛时，如果原来是明文，就加密，如果是密文，就显示出来
+     * */
+    private void toggleShow() {
+        if (isShow) {   //明文====》密文
+            PasswordTransformationMethod passwordMethod = PasswordTransformationMethod.getInstance();
+            topInTv.setTransformationMethod(passwordMethod);   //设置隐藏
+            topOutTv.setTransformationMethod(passwordMethod);   //设置隐藏
+            topbudgetTv.setTransformationMethod(passwordMethod);   //设置隐藏
+            topShowIv.setImageResource(R.mipmap.ih_hide);
+            isShow = false;   //设置标志位为隐藏状态
+        }else{  //密文---》明文
+            HideReturnsTransformationMethod hideMethod = HideReturnsTransformationMethod.getInstance();
+            topInTv.setTransformationMethod(hideMethod);   //设置隐藏
+            topOutTv.setTransformationMethod(hideMethod);   //设置隐藏
+            topbudgetTv.setTransformationMethod(hideMethod);   //设置隐藏
+            topShowIv.setImageResource(R.mipmap.ih_show);
+            isShow = true;   //设置标志位为隐藏状态
+        }
+    }
+    /** 显示运算设置对话框*/
+    private void showBudgetDialog() {
+        BudgetDialog dialog = new BudgetDialog(this);
+        dialog.show();
+        dialog.setDialogSize();
+        dialog.setOnEnsureListener(money -> {
+            //将预算金额写入到共享参数当中，进行存储
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putFloat("bmoney",money);
+            editor.apply();
+            //计算剩余金额
+            float outcomeOneMonth = DBManager.getSumMoneyOneMonth(year, month, 0);
+            float syMoney = money-outcomeOneMonth;//预算剩余 = 预算-支出
+            topbudgetTv.setText("￥"+syMoney);
+        });
     }
 }
