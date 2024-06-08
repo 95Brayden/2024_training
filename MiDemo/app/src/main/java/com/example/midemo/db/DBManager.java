@@ -126,5 +126,12 @@ public class DBManager {
             total = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
         }
         return total;
+
+    }
+    /*
+     * 根据传入的id，删除accounttb表当中的一条数据
+     * */
+    public static void deleteItemFromAccounttbById(int id){
+         db.delete("accounttb", "id=?", new String[]{id + ""});
     }
 }

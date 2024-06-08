@@ -1,12 +1,14 @@
 package com.example.midemo;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -14,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.midemo.Dialog.BudgetDialog;
@@ -91,7 +94,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editBtn.setOnClickListener(this);
         moreBtn.setOnClickListener(this);
         searchIv.setOnClickListener(this);
+        setLVLongClickListener();
     }
+
+    /** 设置ListView的长按事件*/
+    private void setLVLongClickListener() {
+        todayLv.setOnItemLongClickListener((parent, view, position, id) -> {
+            if (position == 0) {  //点击了头布局
+                return false;
+            }
+            int pos = position-1;
+            AccountBean clickBean = mDatas.get(pos);  //获取正在被点击的这条信息
+
+            //弹出提示用户是否删除的对话框
+            showDeleteItemDialog(clickBean);
+            return false;
+        });
+    }
+
+    /* 弹出是否删除某一条记录的对话框*/
+    private void showDeleteItemDialog(final AccountBean clickBean) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示信息").setMessage("您确定要删除这条记录么？")
+                .setNegativeButton("取消",null)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int click_id = clickBean.getId();
+                        //执行删除的操作
+                        DBManager.deleteItemFromAccounttbById(click_id);
+                        mDatas.remove(clickBean);   //实时刷新，移除集合当中的对象
+                        adapter.notifyDataSetChanged();   //提示适配器更新数据
+                        setTopTvShow();   //改变头布局TextView显示的内容
+                    }
+                });
+        builder.create().show();   //显示对话框
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
