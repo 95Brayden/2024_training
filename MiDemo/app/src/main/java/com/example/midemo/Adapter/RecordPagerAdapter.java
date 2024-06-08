@@ -1,4 +1,4 @@
-package com.example.midemo.adapter;
+package com.example.midemo.Adapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

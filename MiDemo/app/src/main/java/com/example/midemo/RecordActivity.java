@@ -6,7 +6,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.midemo.adapter.RecordPagerAdapter;
+import com.example.midemo.Adapter.RecordPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.example.midemo.frag_record.IncomeFragment;
 import com.example.midemo.frag_record.OutcomeFragment;

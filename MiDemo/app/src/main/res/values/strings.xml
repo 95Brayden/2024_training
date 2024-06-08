@@ -19,6 +19,8 @@
     <string name="remark">备注</string>
     <string name="please_input_time">请输入时间</string>
     <string name="set_budget">设置预算</string>
+    <string name="please_search_info">请输入搜索信息</string>
+    <string name="date_empty">数据为空，无此类记录...</string>
 
 
 </resources>

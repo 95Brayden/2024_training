@@ -1,14 +1,12 @@
 package com.example.midemo;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -20,7 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.midemo.Dialog.BudgetDialog;
-import com.example.midemo.adapter.AccountAdapter;
+import com.example.midemo.Adapter.AccountAdapter;
 import com.example.midemo.db.AccountBean;
 import com.example.midemo.db.DBManager;
 
@@ -117,16 +115,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("提示信息").setMessage("您确定要删除这条记录么？")
                 .setNegativeButton("取消",null)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        int click_id = clickBean.getId();
-                        //执行删除的操作
-                        DBManager.deleteItemFromAccounttbById(click_id);
-                        mDatas.remove(clickBean);   //实时刷新，移除集合当中的对象
-                        adapter.notifyDataSetChanged();   //提示适配器更新数据
-                        setTopTvShow();   //改变头布局TextView显示的内容
-                    }
+                .setPositiveButton("确定", (dialog, which) -> {
+                    int click_id = clickBean.getId();
+                    //执行删除的操作
+                    DBManager.deleteItemFromAccounttbById(click_id);
+                    mDatas.remove(clickBean);   //实时刷新，移除集合当中的对象
+                    adapter.notifyDataSetChanged();   //提示适配器更新数据
+                    setTopTvShow();   //改变头布局TextView显示的内容
                 });
         builder.create().show();   //显示对话框
     }
@@ -146,6 +141,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.item_mainlv_top_iv_hide:
                 // 切换TextView明文和密文
                 toggleShow();
+                break;
+            case R.id.main_iv_search:
+                Intent it = new Intent(this, SearchActivity.class);  //跳转界面
+                startActivity(it);
                 break;
         }
         if (v == headerView) {
