@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.midemo.Dialog.BudgetDialog;
 import com.example.midemo.Adapter.AccountAdapter;
+import com.example.midemo.Dialog.MoreDialog;
 import com.example.midemo.db.AccountBean;
 import com.example.midemo.db.DBManager;
 
@@ -129,11 +130,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.main_iv_search:
+                Intent it = new Intent(this, SearchActivity.class);  //跳转界面
+                startActivity(it);
+                break;
             case R.id.main_btn_edit:
                 Intent it1 = new Intent(this, RecordActivity.class);  //跳转界面
                 startActivity(it1);
                 break;
             case R.id.main_btn_more:
+                MoreDialog moreDialog = new MoreDialog(this);
+                moreDialog.show();
+                moreDialog.setDialogSize();
                 break;
             case R.id.item_mainlv_top_tv_budget:
                 showBudgetDialog();
@@ -141,10 +149,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.item_mainlv_top_iv_hide:
                 // 切换TextView明文和密文
                 toggleShow();
-                break;
-            case R.id.main_iv_search:
-                Intent it = new Intent(this, SearchActivity.class);  //跳转界面
-                startActivity(it);
                 break;
         }
         if (v == headerView) {

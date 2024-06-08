@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/grey_f3f3f3">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:id="@+id/about_iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/it_back"
+            android:onClick="onClick"
+            android:layout_marginLeft="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/about"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical" app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" >
+
+        <!--Logo-->
+        <ImageView
+            android:id="@+id/LogoImage"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="120dp"
+            android:src="@drawable/logo"/>
+
+        <!--标题-->
+        <TextView
+            android:id="@+id/TitleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
+            android:text="MIDemo\n欢迎使用XIAOMI记账本!"
+            android:gravity="center"
+            android:textColor="#808080"
+            android:textSize="30dp"/>
+
+        <!--欢迎信息-->
+        <TextView
+            android:id="@+id/WelcomeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:textSize="24dp"
+            android:gravity="center"
+            android:textColor="#333333"
+            android:background="@drawable/translucent_edit"
+            android:padding="15dp"
+            android:text="Welcome!"/>
+    </LinearLayout>
+</LinearLayout>

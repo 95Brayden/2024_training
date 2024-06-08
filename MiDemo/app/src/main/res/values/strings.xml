@@ -21,6 +21,13 @@
     <string name="set_budget">设置预算</string>
     <string name="please_search_info">请输入搜索信息</string>
     <string name="date_empty">数据为空，无此类记录...</string>
+    <string name="about">关于</string>
+    <string name="setting">设置</string>
+    <string name="history_record">账单记录</string>
+    <string name="account_info">账单详情</string>
+    <string name="about_appinfo">应用信息</string>
+    <string name="about_version">版本</string>
+    <string name="about_1">1.0</string>
 
 
 </resources>

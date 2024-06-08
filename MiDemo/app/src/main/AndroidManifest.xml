@@ -11,6 +11,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MiDemo">
         <activity
+            android:name=".Activity.MonthChartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.SettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.AboutActivity"
+            android:exported="false" />
+        <activity
             android:name=".SearchActivity"
             android:exported="false" />
         <activity
