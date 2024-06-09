@@ -86,8 +86,7 @@ public class CalendarDialog extends Dialog implements View.OnClickListener {
         int selYear = yearList.get(selectPos);
         adapter = new CalendarAdapter(getContext(), selYear);
         if (selectMonth == -1) {
-            int month = Calendar.getInstance().get(Calendar.MONTH);
-            adapter.selPos = month;
+            adapter.selPos = Calendar.getInstance().get(Calendar.MONTH);
         }else {
             adapter.selPos = selectMonth-1;
         }
@@ -98,7 +97,7 @@ public class CalendarDialog extends Dialog implements View.OnClickListener {
         hsvViewList = new ArrayList<>();   //将添加进入线性布局当中的TextView进行统一管理的集合
         yearList = DBManager.getYearListFromAccounttb(); //获取数据库当中存储了多少个年份
         //如果数据库当中没有记录，就添加今年的记录
-        if (yearList.size() == 0) {
+        if (yearList.isEmpty()) {
             int year = Calendar.getInstance().get(Calendar.YEAR);
             yearList.add(year);
         }
@@ -123,15 +122,12 @@ public class CalendarDialog extends Dialog implements View.OnClickListener {
         for (int i = 0; i < hsvViewList.size(); i++) {
             TextView view = hsvViewList.get(i);
             final int pos = i;
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    changeTvbg(pos);
-                    selectPos = pos;
-                    // 获取被选中的年份，然后下面的GridView显示数据源会发生变化
-                    int year = yearList.get(selectPos);
-                    adapter.setYear(year);
-                }
+            view.setOnClickListener(v -> {
+                changeTvbg(pos);
+                selectPos = pos;
+                // 获取被选中的年份，然后下面的GridView显示数据源会发生变化
+                int year = yearList.get(selectPos);
+                adapter.setYear(year);
             });
         }
     }

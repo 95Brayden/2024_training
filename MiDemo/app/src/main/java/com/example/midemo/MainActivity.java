@@ -17,6 +17,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.midemo.Activity.MonthChartActivity;
 import com.example.midemo.Dialog.BudgetDialog;
 import com.example.midemo.Adapter.AccountAdapter;
 import com.example.midemo.Dialog.MoreDialog;
@@ -153,6 +154,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (v == headerView) {
             //头布局被点击了
+            Intent intent = new Intent();
+            intent.setClass(this, MonthChartActivity.class);
+            startActivity(intent);
         }
     }
 

@@ -12,7 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@mipmap/it_back"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:onClick="onClick"/>
         <TextView
             android:layout_width="wrap_content"
@@ -22,12 +22,12 @@
             android:textSize="18sp"
             android:layout_centerInParent="true"/>
         <ImageView
-            android:id="@+id/history_iv_rili"
+            android:id="@+id/history_iv_calendar"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:src="@mipmap/it_rili"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:onClick="onClick"/>
     </RelativeLayout>
     <RelativeLayout
@@ -39,11 +39,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2024年6月"/>
+
+        <Spinner
+            android:id="@+id/sort_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/history_tv_info"
+            android:layout_marginEnd="10dp"
+            android:entries="@array/sort_options" />
+
         <TextView
             android:id="@+id/history_tv_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:textColor="@color/green_006400"
             android:text="@string/history_info"/>
     </RelativeLayout>

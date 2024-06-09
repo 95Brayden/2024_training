@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +24,6 @@ import java.util.List;
 public class HistoryActivity extends AppCompatActivity {
     ListView historyLv;
     TextView timeTv;
-
     List<AccountBean> mDatas;
     AccountAdapter adapter;
     int year,month;
@@ -91,7 +91,7 @@ public class HistoryActivity extends AppCompatActivity {
             case R.id.history_iv_back:
                 finish();
                 break;
-            case R.id.history_iv_rili:
+            case R.id.history_iv_calendar:
                 CalendarDialog dialog = new CalendarDialog(this,dialogSelPos,dialogSelMonth);
                 dialog.show();
                 dialog.setDialogSize();
@@ -102,6 +102,8 @@ public class HistoryActivity extends AppCompatActivity {
                     dialogSelMonth = month;
                 });
                 break;
+            case R.id.sort_spinner:
+
         }
     }
 }

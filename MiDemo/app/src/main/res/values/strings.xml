@@ -29,6 +29,14 @@
     <string name="about_version">版本</string>
     <string name="about_1">1.0</string>
     <string name="history_info">本月账单记录</string>
-
+    <string name="clear_all">清空所有记录</string>
+    <string name="chart_info">账单详情</string>
+    <string name="out">支出</string>
+    <string name="in">收入</string>
+    <string name="not_data">暂无数据</string>
+    <string-array name="sort_options">
+            <item>按金额升序</item>
+            <item>按金额降序</item>
+    </string-array>
 
 </resources>
