@@ -28,6 +28,7 @@
     <string name="about_appinfo">应用信息</string>
     <string name="about_version">版本</string>
     <string name="about_1">1.0</string>
+    <string name="history_info">本月账单记录</string>
 
 
 </resources>
