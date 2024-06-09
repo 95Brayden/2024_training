@@ -3,7 +3,7 @@
     package="com.example.midemo">
 
     <application
-        android:name=".UniteApp"
+        android:name=".utils.UniteApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,28 +11,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MiDemo">
         <activity
-            android:name=".Activity.MonthChartActivity"
+            android:name=".activity.MonthChartActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.HistoryActivity"
+            android:name=".activity.HistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.SettingActivity"
+            android:name=".activity.SettingActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.AboutActivity"
+            android:name=".activity.AboutActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchActivity"
+            android:name=".activity.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".RecordActivity"
+            android:name=".activity.RecordActivity"
             android:exported="false" />
         <activity
-            android:name=".LogOnActivity"
+            android:name=".activity.LogOnActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,7 +40,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUpActivity" />
+        <activity android:name=".activity.SignUpActivity" />
     </application>
 
 </manifest>

@@ -1,20 +1,22 @@
 package com.example.midemo.dao;
 
-import android.content.ContentValues; // 导入ContentValues类，用于存储一行数据的键值对
-import android.content.Context; // 导入Context类，用于获取上下文环境
-import android.database.Cursor; // 导入Cursor类，用于迭代查询结果
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import com.example.midemo.utils.DatabaseHelper;
+
+import com.example.midemo.bean.UserBean;
+import com.example.midemo.db.DBOpenHelper;
 
 // 定义UserDAO类，用于数据库操作
 public class UserDAO {
     private SQLiteDatabase database; // SQLiteDatabase对象，用于数据库操作
-    private DatabaseHelper dbHelper; // DatabaseHelper对象，用于创建和管理数据库
+    private DBOpenHelper dbHelper; // DBOpenHelper对象，用于创建和管理数据库
 
     public UserDAO(Context context) { // UserDAO构造函数，接收Context对象
-        dbHelper = new DatabaseHelper(context); // 初始化DatabaseHelper对象
+        dbHelper = new DBOpenHelper(context); // 初始化DBOpenHelper对象
     }
 
     public void open() throws SQLException {
@@ -27,22 +29,22 @@ public class UserDAO {
         dbHelper.close();
     }
 
-    public void addUser(String username, String password) { // 添加用户方法，接收用户名和密码
+    public void addUser(UserBean user) { // 添加用户方法，接收UserBean对象
         ContentValues values = new ContentValues(); // 创建ContentValues对象
-        values.put(DatabaseHelper.COLUMN_USERNAME, username); // 将用户名放入ContentValues
-        values.put(DatabaseHelper.COLUMN_PASSWORD, password); // 将密码放入ContentValues
-        database.insert(DatabaseHelper.TABLE_USER, null, values); // 插入新行到用户表中
+        values.put(DBOpenHelper.COLUMN_USERNAME, user.getUsername()); // 将用户名放入ContentValues
+        values.put(DBOpenHelper.COLUMN_PASSWORD, user.getPassword()); // 将密码放入ContentValues
+        database.insert(DBOpenHelper.TABLE_USER, null, values); // 插入新行到用户表中
     }
 
-    // 检查用户方法，接收用户名和密码
-    public boolean checkUser(String username, String password) {
+    // 检查用户方法，接收UserBean对象
+    public boolean checkUser(UserBean user) {
         String[] columns = {
-                DatabaseHelper.COLUMN_ID
+                DBOpenHelper.COLUMN_ID
         };
-        String selection = DatabaseHelper.COLUMN_USERNAME + " = ?" + " AND " + DatabaseHelper.COLUMN_PASSWORD + " = ?"; // 查询条件
-        String[] selectionArgs = {username, password}; // 查询条件的参数
+        String selection = DBOpenHelper.COLUMN_USERNAME + " = ?" + " AND " + DBOpenHelper.COLUMN_PASSWORD + " = ?"; // 查询条件
+        String[] selectionArgs = {user.getUsername(), user.getPassword()}; // 查询条件的参数
 
-        Cursor cursor = database.query(DatabaseHelper.TABLE_USER, // 执行查询操作
+        Cursor cursor = database.query(DBOpenHelper.TABLE_USER, // 执行查询操作
                 columns, // 要查询的列
                 selection, // 查询条件
                 selectionArgs, // 查询条件的参数

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/grey_f3f3f3"
-    tools:context=".SearchActivity">
+    tools:context=".activity.SearchActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp">

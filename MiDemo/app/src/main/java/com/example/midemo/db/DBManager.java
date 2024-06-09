@@ -7,6 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 import android.database.Cursor;
 
+import com.example.midemo.bean.AccountBean;
+import com.example.midemo.bean.BarChartItemBean;
+import com.example.midemo.bean.ChartItemBean;
+import com.example.midemo.bean.TypeBean;
 import com.example.midemo.utils.FloatUtils;
 
 import java.util.ArrayList;
@@ -264,7 +268,7 @@ public class DBManager {
     /**
      * 查询指定年份和月份的收入或者支出每一种类型的总钱数
      * */
-    public static List<ChartItemBean>getChartListFromAccounttb(int year,int month,int kind){
+    public static List<ChartItemBean>getChartListFromAccounttb(int year, int month, int kind){
         List<ChartItemBean>list = new ArrayList<>();
         float sumMoneyOneMonth = getSumMoneyOneMonth(year, month, kind);  //求出支出或者收入总钱数
         String sql = "select typename,sImageId,sum(money)as total from accounttb where year=? and month=? and kind=? group by typename " +
@@ -296,7 +300,7 @@ public class DBManager {
     }
 
     /** 根据指定月份每一日收入或者支出的总钱数的集合*/
-    public static List<BarChartItemBean>getSumMoneyOneDayInMonth(int year,int month,int kind){
+    public static List<BarChartItemBean>getSumMoneyOneDayInMonth(int year, int month, int kind){
         String sql = "select day,sum(money) from accounttb where year=? and month=? and kind=? group by day";
         Cursor cursor = db.rawQuery(sql, new String[]{year + "", month + "", kind + ""});
         List<BarChartItemBean>list = new ArrayList<>();
