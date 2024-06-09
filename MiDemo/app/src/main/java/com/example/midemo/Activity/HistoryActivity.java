@@ -123,11 +123,14 @@ public class HistoryActivity extends AppCompatActivity {
                 CalendarDialog dialog = new CalendarDialog(this,dialogSelPos,dialogSelMonth);
                 dialog.show();
                 dialog.setDialogSize();
-                dialog.setOnRefreshListener((selPos, year, month) -> {
-                    timeTv.setText(year+"年"+month+"月");
-                    loadData(year,month);
+                dialog.setOnRefreshListener((selPos, selectedYear, selectedMonth) -> {
+                    timeTv.setText(selectedYear+"年"+selectedMonth+"月");
+                    loadData(selectedYear,selectedMonth);
                     dialogSelPos = selPos;
                     dialogSelMonth = month;
+                    // 更新全局变量，以便后续操作中使用
+                    year = selectedYear;
+                    month = selectedMonth;
                 });
                 break;
         }
