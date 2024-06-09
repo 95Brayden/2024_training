@@ -35,8 +35,9 @@
     <string name="in">收入</string>
     <string name="not_data">暂无数据</string>
     <string-array name="sort_options">
-            <item>按金额升序</item>
-            <item>按金额降序</item>
+        <item>按日期排序</item>
+        <item>按金额升序</item>
+        <item>按金额降序</item>
     </string-array>
 
 </resources>

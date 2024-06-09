@@ -1,5 +1,4 @@
 package com.example.midemo;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,7 +26,6 @@ import com.example.midemo.db.DBManager;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     ListView todayLv;  //展示今日收支情况的ListView

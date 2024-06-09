@@ -19,6 +19,8 @@ import com.example.midemo.db.DBManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class HistoryActivity extends AppCompatActivity {
@@ -29,12 +31,15 @@ public class HistoryActivity extends AppCompatActivity {
     int year,month;
     int dialogSelPos = -1;
     int dialogSelMonth = -1;
+    Spinner sortSpinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         historyLv = findViewById(R.id.history_lv);
         timeTv = findViewById(R.id.history_tv_time);
+        sortSpinner=findViewById(R.id.sort_spinner);
         mDatas = new ArrayList<>();
         // 设置适配器
         adapter = new AccountAdapter(this,mDatas);
@@ -43,15 +48,32 @@ public class HistoryActivity extends AppCompatActivity {
         timeTv.setText(year+"年"+month+"月");
         loadData(year,month);
         setLVClickListener();
+        setSpinnerListener();
     }
     /*设置ListView每一个item的长按事件*/
     private void setLVClickListener() {
-        historyLv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        historyLv.setOnItemLongClickListener((parent, view, position, id) -> {
+            AccountBean accountBean = mDatas.get(position);
+            deleteItem(accountBean);
+            return false;
+        });
+    }
+    private void setSpinnerListener() {
+        sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                AccountBean accountBean = mDatas.get(position);
-                deleteItem(accountBean);
-                return false;
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position==0){
+                    loadData(year,month);
+                }
+                else if (position == 1) {
+                    loadData(year, month, true); // 按金额升序加载数据
+                } else if (position == 2) {
+                    loadData(year, month, false); // 按金额降序加载数据
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // 什么也不做
             }
         });
     }
@@ -79,6 +101,12 @@ public class HistoryActivity extends AppCompatActivity {
         mDatas.addAll(list);
         adapter.notifyDataSetChanged();
     }
+    private void loadData(int year, int month, boolean ascending) {
+        List<AccountBean> list = DBManager.getAccountListOneMonthFromAccounttbByAsc(year, month,ascending);
+        mDatas.clear();
+        mDatas.addAll(list);
+        adapter.notifyDataSetChanged();
+    }
 
     private void initTime() {
         Calendar calendar = Calendar.getInstance();
@@ -102,8 +130,6 @@ public class HistoryActivity extends AppCompatActivity {
                     dialogSelMonth = month;
                 });
                 break;
-            case R.id.sort_spinner:
-
         }
     }
 }
