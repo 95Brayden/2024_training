@@ -117,6 +117,33 @@ public class DBManager {
         }
         return list;
     }
+    /*
+     * 获取记账表当中某一月的所有支出或者收入情况(按金额排序)
+     */
+    public static List<AccountBean> getAccountListOneMonthFromAccounttbByAsc(int year, int month, boolean ascending) {
+        List<AccountBean> list = new ArrayList<>();
+        String order = ascending ? "asc" : "desc";
+        String sql = "select * from accounttb where year=? and month=? order by money " + order;
+        Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(year), String.valueOf(month)});
+
+        // 遍历符合要求的每一行数据
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndex("id"));
+            String typename = cursor.getString(cursor.getColumnIndex("typename"));
+            String beizhu = cursor.getString(cursor.getColumnIndex("beizhu"));
+            String time = cursor.getString(cursor.getColumnIndex("time"));
+            int sImageId = cursor.getInt(cursor.getColumnIndex("sImageId"));
+            int kind = cursor.getInt(cursor.getColumnIndex("kind"));
+            float money = cursor.getFloat(cursor.getColumnIndex("money"));
+            int day = cursor.getInt(cursor.getColumnIndex("day"));
+            AccountBean accountBean = new AccountBean(id, typename, sImageId, beizhu, money, time, year, month, day, kind);
+            list.add(accountBean);
+        }
+
+        cursor.close(); // 记得关闭 cursor
+        return list;
+    }
+
     /**
      * 获取某一月的支出或者收入的总金额   kind：支出==0    收入===1
      * */
@@ -250,4 +277,6 @@ public class DBManager {
         }
         return list;
     }
+
+
 }
