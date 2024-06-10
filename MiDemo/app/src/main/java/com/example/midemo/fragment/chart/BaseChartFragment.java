@@ -33,6 +33,7 @@ abstract public class BaseChartFragment extends Fragment {
     private ChartItemAdapter itemAdapter;
     protected BarChart barChart;     // 代表柱状图的控件
     protected TextView chartTv;     // 如果没有收支情况，显示的TextView
+
     protected AccountDAO accountDAO;  // AccountDAO 对象
     protected Context mContext;  // 上下文对象
 
@@ -44,9 +45,8 @@ abstract public class BaseChartFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_income_chart, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_itemlv_chart, container, false);
         chartLv = view.findViewById(R.id.frag_chart_lv);
         // 获取Activity传递的数据
         Bundle bundle = getArguments();

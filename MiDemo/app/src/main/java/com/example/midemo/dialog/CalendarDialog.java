@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 
 import com.example.midemo.adapter.CalendarAdapter;
 import com.example.midemo.R;
+import com.example.midemo.dao.AccountDAO;
 import com.example.midemo.db.DBManager;
 
 import java.util.ArrayList;
@@ -29,13 +30,14 @@ public class CalendarDialog extends Dialog implements View.OnClickListener {
     ImageView errorIv;
     GridView gv;
     LinearLayout hsvLayout;
+    private AccountDAO accountDAO;
 
     List<TextView> hsvViewList;
     List<Integer>yearList;
 
-    int selectPos = -1;   //表示正在被点击的年份的位置
+    int selectPos;   //表示正在被点击的年份的位置
     private CalendarAdapter adapter;
-    int selectMonth = -1;
+    int selectMonth;
 
     public interface OnRefreshListener{
         public void onRefresh(int selPos,int year,int month);
@@ -60,6 +62,8 @@ public class CalendarDialog extends Dialog implements View.OnClickListener {
         errorIv = findViewById(R.id.dialog_calendar_iv);
         hsvLayout = findViewById(R.id.dialog_calendar_layout);
         errorIv.setOnClickListener(this);
+        accountDAO = new AccountDAO(getContext());  // 初始化 AccountDAO 对象
+
         // 向横向的ScrollView当中添加View的方法
         addViewToLayout();
         initGridView();
@@ -68,17 +72,14 @@ public class CalendarDialog extends Dialog implements View.OnClickListener {
     }
 
     private void setGVListener() {
-        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                adapter.selPos = position;
-                adapter.notifyDataSetInvalidated();
-                int month = position + 1;
-                int year = adapter.year;
-                // 获取到被选中的年份和月份
-                onRefreshListener.onRefresh(selectPos,year,month);
-                cancel();
-            }
+        gv.setOnItemClickListener((parent, view, position, id) -> {
+            adapter.selPos = position;
+            adapter.notifyDataSetInvalidated();
+            int month = position + 1;
+            int year = adapter.year;
+            // 获取到被选中的年份和月份
+            onRefreshListener.onRefresh(selectPos,year,month);
+            cancel();
         });
     }
 
@@ -95,7 +96,7 @@ public class CalendarDialog extends Dialog implements View.OnClickListener {
 
     private void addViewToLayout() {
         hsvViewList = new ArrayList<>();   //将添加进入线性布局当中的TextView进行统一管理的集合
-        yearList = DBManager.getYearListFromAccounttb(); //获取数据库当中存储了多少个年份
+        yearList = accountDAO.getYearListFromAccount(); //获取数据库当中存储了多少个年份
         //如果数据库当中没有记录，就添加今年的记录
         if (yearList.isEmpty()) {
             int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -156,11 +157,11 @@ public class CalendarDialog extends Dialog implements View.OnClickListener {
 
     /* 设置Dialog的尺寸和屏幕尺寸一致*/
     public void setDialogSize(){
-//        获取当前窗口对象
+    //        获取当前窗口对象
         Window window = getWindow();
-//        获取窗口对象的参数
+    //        获取窗口对象的参数
         WindowManager.LayoutParams wlp = window.getAttributes();
-//        获取屏幕宽度
+    //        获取屏幕宽度
         Display d = window.getWindowManager().getDefaultDisplay();
         wlp.width = d.getWidth();  //对话框窗口为屏幕窗口
         wlp.gravity = Gravity.TOP;

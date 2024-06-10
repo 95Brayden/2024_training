@@ -10,10 +10,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.midemo.adapter.AccountAdapter;
 import com.example.midemo.R;
+import com.example.midemo.adapter.AccountAdapter;
 import com.example.midemo.bean.AccountBean;
-import com.example.midemo.db.DBManager;
+import com.example.midemo.dao.AccountDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +24,14 @@ public class SearchActivity extends AppCompatActivity {
     TextView emptyTv;
     List<AccountBean>mDatas;   //数据源
     AccountAdapter accountAdapter;    //适配器对象
+    private AccountDAO accountDAO;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        accountDAO = new AccountDAO(this);  // 初始化 AccountDAO 对象
+
         initView();
         mDatas = new ArrayList<>();
         accountAdapter = new AccountAdapter(this,mDatas);
@@ -48,13 +52,13 @@ public class SearchActivity extends AppCompatActivity {
                 break;
             case R.id.search_iv_sh:   //执行搜索的操作
                 String msg = searchEt.getText().toString().trim();
-//                判断输入内容是否为空，如果为空，就提示不能搜索
+                //判断输入内容是否为空，如果为空，就提示不能搜索
                 if (TextUtils.isEmpty(msg)) {
                     Toast.makeText(this,"输入内容不能为空！",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //开始搜索
-                List<AccountBean> list = DBManager.getAccountListByRemarkFromAccounttb(msg);
+                List<AccountBean> list = accountDAO.getAccountListByRemark(msg);
                 mDatas.clear();
                 mDatas.addAll(list);
                 accountAdapter.notifyDataSetChanged();

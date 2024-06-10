@@ -45,6 +45,18 @@ public class AccountDAO {
         db.insert("accounttb", null, values);
     }
     /**
+     * 根据ID更新金额
+     *
+     * @param id 记录ID
+     * @param newMoney 新的金额
+     */
+    public void updateMoneyById(int id, float newMoney) {
+        ContentValues values = new ContentValues();
+        values.put("money", newMoney);
+        db.update("accounttb", values, "id=?", new String[]{String.valueOf(id)});
+    }
+
+    /**
      * 获取某一天的所有支出或收入记录
      *
      * @param year  年份
@@ -201,7 +213,7 @@ public class AccountDAO {
      * @param beizhu 备注
      * @return 记录的列表
      */
-    public List<AccountBean> getAccountsByRemark(String beizhu) {
+    public List<AccountBean> getAccountListByRemark(String beizhu) {
         List<AccountBean> list = new ArrayList<>();
         String sql = "select * from accounttb where beizhu like '%" + beizhu + "%'";
         Cursor cursor = db.rawQuery(sql, null);

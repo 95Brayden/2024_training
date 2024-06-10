@@ -30,6 +30,8 @@
     <string name="not_data">暂无数据</string>
     <string name="first_fragment_label" />
     <string name="second_fragment_label" />
+    <string name="edit_money">修改金额</string>
+    <string name="money">金额</string>
     <string-array name="sort_options">
         <item>按日期排序</item>
         <item>按金额升序</item>

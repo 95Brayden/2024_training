@@ -1,7 +1,6 @@
 package com.example.midemo.activity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,11 +10,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.midemo.adapter.AccountAdapter;
-import com.example.midemo.dialog.CalendarDialog;
 import com.example.midemo.R;
+import com.example.midemo.adapter.AccountAdapter;
 import com.example.midemo.bean.AccountBean;
-import com.example.midemo.db.DBManager;
+import com.example.midemo.dao.AccountDAO;
+import com.example.midemo.dialog.CalendarDialog;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,6 +29,7 @@ public class HistoryActivity extends AppCompatActivity {
     int dialogSelPos = -1;
     int dialogSelMonth = -1;
     Spinner sortSpinner;
+    private AccountDAO accountDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,8 @@ public class HistoryActivity extends AppCompatActivity {
         historyLv = findViewById(R.id.history_lv);
         timeTv = findViewById(R.id.history_tv_time);
         sortSpinner=findViewById(R.id.sort_spinner);
+        accountDAO = new AccountDAO(this);  // 初始化 AccountDAO 对象
+
         mDatas = new ArrayList<>();
         // 设置适配器
         adapter = new AccountAdapter(this,mDatas);
@@ -81,26 +83,23 @@ public class HistoryActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("提示信息").setMessage("您确定要删除这条记录么？")
                 .setNegativeButton("取消",null)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        DBManager.deleteItemFromAccounttbById(delId);
-                        mDatas.remove(accountBean);   //实时刷新，从数据源删除
-                        adapter.notifyDataSetChanged();
-                    }
+                .setPositiveButton("确定", (dialog, which) -> {
+                    accountDAO.deleteItemFromAccountById(delId);
+                    mDatas.remove(accountBean);   //实时刷新，从数据源删除
+                    adapter.notifyDataSetChanged();
                 });
         builder.create().show();
     }
 
     /* 获取指定年份月份收支情况的列表*/
     private void loadData(int year,int month) {
-        List<AccountBean> list = DBManager.getAccountListOneMonthFromAccounttb(year, month);
+        List<AccountBean> list = accountDAO.getAccountListInMonth(year, month);
         mDatas.clear();
         mDatas.addAll(list);
         adapter.notifyDataSetChanged();
     }
     private void loadData(int year, int month, boolean ascending) {
-        List<AccountBean> list = DBManager.getAccountListOneMonthFromAccounttbByAsc(year, month,ascending);
+        List<AccountBean> list = accountDAO.getAccountListInMonthByMoney(year, month,ascending);
         mDatas.clear();
         mDatas.addAll(list);
         adapter.notifyDataSetChanged();

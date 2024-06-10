@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.midemo.adapter.ChartVPAdapter;
+import com.example.midemo.dao.AccountDAO;
 import com.example.midemo.dialog.CalendarDialog;
 import com.example.midemo.R;
 import com.example.midemo.db.DBManager;
@@ -27,6 +28,8 @@ public class MonthChartActivity extends AppCompatActivity {
     ViewPager chartVp;
     int year;
     int month;
+    private AccountDAO accountDAO;
+
     int selectPos = -1,selectMonth =-1;
     List<Fragment>chartFragList;
     private IncomeChartFragment incomeChartFragment;
@@ -37,6 +40,8 @@ public class MonthChartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_month_chart);
+        accountDAO = new AccountDAO(this);  // 初始化 AccountDAO 对象
+
         initView();
         initTime();
         initStatistics(year,month);
@@ -75,10 +80,10 @@ public class MonthChartActivity extends AppCompatActivity {
 
     /* 统计某年某月的收支情况数据*/
     private void initStatistics(int year, int month) {
-        float inMoneyOneMonth = DBManager.getSumMoneyOneMonth(year, month, 1);  //收入总钱数
-        float outMoneyOneMonth = DBManager.getSumMoneyOneMonth(year, month, 0); //支出总钱数
-        int incountItemOneMonth = DBManager.getCountItemOneMonth(year, month, 1);  //收入多少笔
-        int outcountItemOneMonth = DBManager.getCountItemOneMonth(year, month, 0); //支出多少笔
+        float inMoneyOneMonth = accountDAO.getSumMoneyOneMonth(year, month, 1);  //收入总钱数
+        float outMoneyOneMonth = accountDAO.getSumMoneyOneMonth(year, month, 0); //支出总钱数
+        int incountItemOneMonth = accountDAO.getCountItemOneMonth(year, month, 1);  //收入多少笔
+        int outcountItemOneMonth = accountDAO.getCountItemOneMonth(year, month, 0); //支出多少笔
         dateTv.setText(year+"年"+month+"月账单");
         inTv.setText("共"+incountItemOneMonth+"笔收入, ￥ "+inMoneyOneMonth);
         outTv.setText("共"+outcountItemOneMonth+"笔支出, ￥ "+outMoneyOneMonth);

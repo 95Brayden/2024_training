@@ -16,8 +16,10 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.midemo.dao.AccountDAO;
 import com.example.midemo.dialog.BudgetDialog;
 import com.example.midemo.adapter.AccountAdapter;
+import com.example.midemo.dialog.EditDialog;
 import com.example.midemo.dialog.MoreDialog;
 import com.example.midemo.R;
 import com.example.midemo.bean.AccountBean;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button editBtn;
     ImageButton moreBtn;
     AccountAdapter adapter;
+    private AccountDAO accountDAO;
 
     int year,month,day;
     //声明数据源
@@ -48,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        accountDAO = new AccountDAO(this);  // 初始化 AccountDAO 对象
+
         initTime();
         initView();
         preferences = getSharedPreferences("budget", Context.MODE_PRIVATE);
@@ -93,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         moreBtn.setOnClickListener(this);
         searchIv.setOnClickListener(this);
         setLVLongClickListener();
+        // 设置ListView的点击事件
+        setLVClickListener();
     }
 
     /** 设置ListView的长按事件*/
@@ -109,22 +117,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return false;
         });
     }
-
-    /* 弹出是否删除某一条记录的对话框*/
-    private void showDeleteItemDialog(final AccountBean clickBean) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("提示信息").setMessage("您确定要删除这条记录么？")
-                .setNegativeButton("取消",null)
-                .setPositiveButton("确定", (dialog, which) -> {
-                    int click_id = clickBean.getId();
-                    //执行删除的操作
-                    DBManager.deleteItemFromAccounttbById(click_id);
-                    mDatas.remove(clickBean);   //实时刷新，移除集合当中的对象
-                    adapter.notifyDataSetChanged();   //提示适配器更新数据
-                    setTopTvShow();   //改变头布局TextView显示的内容
-                });
-        builder.create().show();   //显示对话框
+    /** 设置ListView的点击事件*/
+    private void setLVClickListener() {
+        todayLv.setOnItemClickListener((parent, view, position, id) -> {
+            if (position == 0) {  // 点击了头布局
+                return;
+            }
+            int pos = position - 1;
+            AccountBean clickBean = mDatas.get(pos);  // 获取正在被点击的这条信息
+            // 弹出修改金额对话框
+            showEditDialog(clickBean);
+        });
     }
+
 
     @Override
     public void onClick(View v) {
@@ -168,20 +173,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setTopTvShow() {
         //获取今日支出和收入总金额，显示在view当中
-        float incomeOneDay = DBManager.getSumMoneyOneDay(year, month, day, 1);
-        float outcomeOneDay = DBManager.getSumMoneyOneDay(year, month, day, 0);
+        float incomeOneDay = accountDAO.getSumMoneyOneDay(year, month, day, 1);
+        float outcomeOneDay = accountDAO.getSumMoneyOneDay(year, month, day, 0);
         String infoOneDay = "今日支出 ￥"+outcomeOneDay+"  收入 ￥"+incomeOneDay;
         topConTv.setText(infoOneDay);
         //获取本月收入和支出总金额
-        float incomeOneMonth = DBManager.getSumMoneyOneMonth(year, month, 1);
-        float outcomeOneMonth = DBManager.getSumMoneyOneMonth(year, month, 0);
+        float incomeOneMonth = accountDAO.getSumMoneyOneMonth(year, month, 1);
+        float outcomeOneMonth = accountDAO.getSumMoneyOneMonth(year, month, 0);
         topInTv.setText("￥"+incomeOneMonth);
         topOutTv.setText("￥"+outcomeOneMonth);
     }
 
     // 加载数据库数据
     private void loadDBData() {
-        List<AccountBean> list = DBManager.getAccountListOneDayFromAccounttb(year, month, day);
+        List<AccountBean> list = accountDAO.getAccountListInDay(year, month, day);
         mDatas.clear();
         mDatas.addAll(list);
         adapter.notifyDataSetChanged();
@@ -207,6 +212,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             isShow = true;   //设置标志位为隐藏状态
         }
     }
+    /* 弹出是否删除某一条记录的对话框*/
+    private void showDeleteItemDialog(final AccountBean clickBean) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示信息").setMessage("您确定要删除这条记录么？")
+                .setNegativeButton("取消",null)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    int click_id = clickBean.getId();
+                    //执行删除的操作
+                    accountDAO.deleteItemFromAccountById(click_id);
+                    mDatas.remove(clickBean);   //实时刷新，移除集合当中的对象
+                    adapter.notifyDataSetChanged();   //提示适配器更新数据
+                    setTopTvShow();   //改变头布局TextView显示的内容
+                });
+        builder.create().show();   //显示对话框
+    }
     /** 显示运算设置对话框*/
     private void showBudgetDialog() {
         BudgetDialog dialog = new BudgetDialog(this);
@@ -218,9 +238,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             editor.putFloat("bmoney",money);
             editor.apply();
             //计算剩余金额
-            float outcomeOneMonth = DBManager.getSumMoneyOneMonth(year, month, 0);
+            float outcomeOneMonth = accountDAO.getSumMoneyOneMonth(year, month, 0);
             float syMoney = money-outcomeOneMonth;//预算剩余 = 预算-支出
             topbudgetTv.setText("￥"+syMoney);
         });
     }
+    /** 显示修改金额设置对话框*/
+    private void showEditDialog(AccountBean accountBean) {
+        EditDialog dialog = new EditDialog(this, accountBean.getId(), accountBean.getMoney());
+        dialog.show();
+        dialog.setDialogSize();
+        dialog.setOnEnsureListener((id, money) -> {
+            // 更新数据库中的金额
+            accountDAO.updateMoneyById(id, money);
+            // 刷新数据和界面显示
+            loadDBData();
+            setTopTvShow();   //改变头布局TextView显示的内容
+        });
+    }
+
+
 }

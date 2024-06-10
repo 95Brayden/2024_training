@@ -21,30 +21,43 @@ import androidx.annotation.NonNull;
 
 import com.example.midemo.R;
 
-public class BudgetDialog extends Dialog implements View.OnClickListener {
+public class EditDialog extends Dialog implements View.OnClickListener {
+    private int recordId;
+    private float currentMoney;
     ImageView cancelIv;
     Button ensureBtn;
     EditText moneyEt;
     public  interface OnEnsureListener{
-        void onEnsure(float money);
+        void onEnsure(int id, float money);
     }
     OnEnsureListener onEnsureListener;
-
-    public void setOnEnsureListener(OnEnsureListener onEnsureListener) {
-        this.onEnsureListener = onEnsureListener;
+    public EditDialog(Context context, int id, float money) {
+        super(context);
+        this.recordId = id;
+        this.currentMoney = money;
+        // 初始化布局和其他设置
+    }
+    public void setOnEnsureListener(OnEnsureListener listener) {
+        this.onEnsureListener = listener;
+        ensureBtn.setOnClickListener(v -> {
+            // 获取用户输入的新金额
+            float newMoney = Float.parseFloat(moneyEt.getText().toString());
+            listener.onEnsure(recordId, newMoney);
+            dismiss();
+        });
     }
 
-    public BudgetDialog(@NonNull Context context) {
+    public EditDialog(@NonNull Context context) {
         super(context);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_budget);
-        cancelIv = findViewById(R.id.dialog_budget_iv_error);
-        ensureBtn = findViewById(R.id.dialog_budget_btn_ensure);
-        moneyEt = findViewById(R.id.dialog_budget_et);
+        setContentView(R.layout.dialog_edit);
+        cancelIv = findViewById(R.id.dialog_edit_iv_error);
+        ensureBtn = findViewById(R.id.dialog_edit_btn_ensure);
+        moneyEt = findViewById(R.id.dialog_edit_et);
         cancelIv.setOnClickListener(this);
         ensureBtn.setOnClickListener(this);
     }
@@ -52,10 +65,10 @@ public class BudgetDialog extends Dialog implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.dialog_budget_iv_error:
+            case R.id.dialog_edit_iv_error:
                 cancel();  //取消对话框
                 break;
-            case R.id.dialog_budget_btn_ensure:
+            case R.id.dialog_edit_btn_ensure:
                 //获取输入数据数值
                 String data = moneyEt.getText().toString();
                 if (TextUtils.isEmpty(data)) {
@@ -64,11 +77,11 @@ public class BudgetDialog extends Dialog implements View.OnClickListener {
                 }
                 float money = Float.parseFloat(data);
                 if (money<=0) {
-                    Toast.makeText(getContext(),"预算金额必须大于0",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"金额必须大于0",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (onEnsureListener!=null) {
-                    onEnsureListener.onEnsure(money);
+                    onEnsureListener.onEnsure(recordId,currentMoney);
                 }
                 cancel();
                 break;
