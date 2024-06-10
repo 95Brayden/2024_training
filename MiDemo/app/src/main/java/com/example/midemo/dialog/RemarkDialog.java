@@ -18,7 +18,7 @@ import androidx.annotation.NonNull;
 
 import com.example.midemo.R;
 
-public class BeiZhuDialog extends Dialog implements View.OnClickListener {
+public class RemarkDialog extends Dialog implements View.OnClickListener {
     EditText et;
     Button cancelBtn, ensureBtn;
     OnEnsureListener onEnsureListener;
@@ -28,17 +28,17 @@ public class BeiZhuDialog extends Dialog implements View.OnClickListener {
         this.onEnsureListener = onEnsureListener;
     }
 
-    public BeiZhuDialog(@NonNull Context context) {
+    public RemarkDialog(@NonNull Context context) {
         super(context);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_beizhu);//设置对话框显示布局
-        et = findViewById(R.id.dialog_beizhu_et);
-        cancelBtn = findViewById(R.id.dialog_beizhu_btn_cancel);
-        ensureBtn = findViewById(R.id.dialog_beizhu_btn_ensure);
+        setContentView(R.layout.dialog_remark);//设置对话框显示布局
+        et = findViewById(R.id.dialog_remark_et);
+        cancelBtn = findViewById(R.id.dialog_remark_btn_cancel);
+        ensureBtn = findViewById(R.id.dialog_remark_btn_ensure);
         cancelBtn.setOnClickListener(this);
         ensureBtn.setOnClickListener(this);
     }
@@ -50,9 +50,9 @@ public class BeiZhuDialog extends Dialog implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.dialog_beizhu_btn_cancel) {
+        if (id == R.id.dialog_remark_btn_cancel) {
             cancel();
-        } else if (id == R.id.dialog_beizhu_btn_ensure) {
+        } else if (id == R.id.dialog_remark_btn_ensure) {
             if (onEnsureListener != null) {
                 onEnsureListener.onEnsure();
             }

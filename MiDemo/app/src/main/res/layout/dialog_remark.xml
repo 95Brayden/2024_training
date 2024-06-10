@@ -4,17 +4,17 @@
     android:padding="10dp"
     android:background="@color/white">
     <TextView
-        android:id="@+id/dialog_beizhu_tv"
+        android:id="@+id/dialog_remark_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_remark"
         android:textSize="16sp"
         android:textColor="@color/black"/>
     <EditText
-        android:id="@+id/dialog_beizhu_et"
+        android:id="@+id/dialog_remark_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dialog_beizhu_tv"
+        android:layout_below="@id/dialog_remark_tv"
         android:hint="@string/remark"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
@@ -27,10 +27,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/dialog_beizhu_et"
+        android:layout_below="@id/dialog_remark_et"
         android:padding="10dp">
         <android.widget.Button
-            android:id="@+id/dialog_beizhu_btn_cancel"
+            android:id="@+id/dialog_remark_btn_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -40,7 +40,7 @@
             android:textColor="@color/green_006400"
             android:layout_marginRight="5dp"/>
         <android.widget.Button
-            android:id="@+id/dialog_beizhu_btn_ensure"
+            android:id="@+id/dialog_remark_btn_ensure"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

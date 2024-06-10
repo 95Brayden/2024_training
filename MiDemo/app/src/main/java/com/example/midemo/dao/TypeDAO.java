@@ -26,7 +26,7 @@ public class TypeDAO {
 
     public List<TypeBean> getTypeList(int kind) {
         List<TypeBean> list = new ArrayList<>();
-        String sql = "select * from typetb where kind = " + kind;
+        String sql = "select * from type where kind = " + kind;
         Cursor cursor = db.rawQuery(sql, null);
         while (cursor.moveToNext()) {
             String typename = cursor.getString(cursor.getColumnIndex("typename"));

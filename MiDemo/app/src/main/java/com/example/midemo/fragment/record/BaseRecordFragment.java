@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.midemo.adapter.TypeBaseAdapter;
-import com.example.midemo.dialog.BeiZhuDialog;
+import com.example.midemo.dialog.RemarkDialog;
 import com.example.midemo.dialog.SelectTimeDialog;
 import com.example.midemo.R;
 import com.example.midemo.bean.AccountBean;
@@ -33,7 +33,7 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
     KeyboardView keyboardView;
     EditText moneyEt;
     ImageView typeIv;
-    TextView typeTv,beizhuTv,timeTv;
+    TextView typeTv,remarkTv,timeTv;
     GridView typeGv;
     List<TypeBean>typeList;
     TypeBaseAdapter adapter;
@@ -52,7 +52,7 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
             case R.id.frag_record_tv_time:
                 showTimeDialog();
                 break;
-            case R.id.frag_record_tv_beizhu:
+            case R.id.frag_record_tv_remark:
                 showBZDialog();
                 break;
         }
@@ -73,14 +73,14 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
 
     /* 弹出备注对话框*/
     public  void showBZDialog(){
-        final BeiZhuDialog dialog = new BeiZhuDialog(getContext());
+        final RemarkDialog dialog = new RemarkDialog(getContext());
         dialog.show();
         dialog.setDialogSize();
         dialog.setOnEnsureListener(() -> {
             String msg = dialog.getEditText();
             if (!TextUtils.isEmpty(msg)) {
-                beizhuTv.setText(msg);
-                accountBean.setBeizhu(msg);
+                remarkTv.setText(msg);
+                accountBean.setRemark(msg);
             }
             dialog.cancel();
         });
@@ -142,9 +142,9 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
         typeIv = view.findViewById(R.id.frag_record_iv);
         typeGv = view.findViewById(R.id.frag_record_gv);
         typeTv = view.findViewById(R.id.frag_record_tv_type);
-        beizhuTv = view.findViewById(R.id.frag_record_tv_beizhu);
+        remarkTv = view.findViewById(R.id.frag_record_tv_remark);
         timeTv = view.findViewById(R.id.frag_record_tv_time);
-        beizhuTv.setOnClickListener(this);
+        remarkTv.setOnClickListener(this);
         timeTv.setOnClickListener(this);
         //让自定义软键盘显示出来
         KeyBoardUtils boardUtils = new KeyBoardUtils(keyboardView, moneyEt);

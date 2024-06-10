@@ -115,9 +115,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //弹出提示用户是否删除的对话框
             showDeleteItemDialog(clickBean);
-            return false;
+            return true;  // 改为 true，表示长按事件已处理，不再继续传递
         });
     }
+
     /** 设置ListView的点击事件*/
     private void setLVClickListener() {
         todayLv.setOnItemClickListener((parent, view, position, id) -> {

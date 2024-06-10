@@ -24,7 +24,7 @@
                             android:textStyle="bold"
                             android:textSize="16sp"/>
                     <TextView
-                            android:id="@+id/item_mainlv_tv_beizhu"
+                            android:id="@+id/item_mainlv_tv_remark"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="华子一盒"

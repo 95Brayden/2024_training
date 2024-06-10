@@ -4,7 +4,7 @@ public class AccountBean {
     int id;
     String typename;   //类型
     int sImageId;   //被选中类型图片
-    String beizhu;   //备注
+    String remark;   //备注
     float money;  //价格
     String time ;  //保存时间字符串
     int year;
@@ -36,12 +36,12 @@ public class AccountBean {
         this.sImageId = sImageId;
     }
 
-    public String getBeizhu() {
-        return beizhu;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setBeizhu(String beizhu) {
-        this.beizhu = beizhu;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public float getMoney() {
@@ -95,11 +95,11 @@ public class AccountBean {
     public AccountBean() {
     }
 
-    public AccountBean(int id, String typename, int sImageId, String beizhu, float money, String time, int year, int month, int day, int kind) {
+    public AccountBean(int id, String typename, int sImageId, String remark, float money, String time, int year, int month, int day, int kind) {
         this.id = id;
         this.typename = typename;
         this.sImageId = sImageId;
-        this.beizhu = beizhu;
+        this.remark = remark;
         this.money = money;
         this.time = time;
         this.year = year;

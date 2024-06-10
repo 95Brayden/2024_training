@@ -58,7 +58,7 @@ public class AccountAdapter extends BaseAdapter {
         AccountBean bean = mDatas.get(position);
         holder.typeIv.setImageResource(bean.getsImageId());
         holder.typeTv.setText(bean.getTypename());
-        holder.beizhuTv.setText(bean.getBeizhu());
+        holder.remarkTv.setText(bean.getRemark());
         holder.moneyTv.setText("￥ " + bean.getMoney());
         if (bean.getYear() == year && bean.getMonth() == month && bean.getDay() == day) {
             String time = bean.getTime().split(" ")[1];
@@ -71,13 +71,13 @@ public class AccountAdapter extends BaseAdapter {
 
     class ViewHolder {
         ImageView typeIv;
-        TextView typeTv, beizhuTv, timeTv, moneyTv;
+        TextView typeTv, remarkTv, timeTv, moneyTv;
 
         public ViewHolder(View view) {
             typeIv = view.findViewById(R.id.item_mainlv_iv);
             typeTv = view.findViewById(R.id.item_mainlv_tv_title);
             timeTv = view.findViewById(R.id.item_mainlv_tv_time);
-            beizhuTv = view.findViewById(R.id.item_mainlv_tv_beizhu);
+            remarkTv = view.findViewById(R.id.item_mainlv_tv_remark);
             moneyTv = view.findViewById(R.id.item_mainlv_tv_money);
         }
     }
