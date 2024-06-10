@@ -1,13 +1,18 @@
 package com.example.midemo.utils;
-import android.app.Application;
-import com.example.midemo.db.DBManager;
 
-/* 表示全局应用的类*/
+import android.app.Application;
+import android.content.Context;
+
 public class UniteApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
         // 初始化数据库
-        DBManager.initDB(getApplicationContext());
+        initDB(getApplicationContext());
+    }
+
+    private void initDB(Context context) {
+        DBOpenHelper helper = new DBOpenHelper(context);
+        helper.getWritableDatabase(); // 这会触发onCreate和插入模拟数据
     }
 }

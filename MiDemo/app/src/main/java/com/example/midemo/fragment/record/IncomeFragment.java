@@ -1,32 +1,19 @@
 package com.example.midemo.fragment.record;
 
-
 import com.example.midemo.R;
-import com.example.midemo.db.DBManager;
-import com.example.midemo.bean.TypeBean;
-
-import java.util.List;
 
 /**
  * 收入记录页面
  */
-public class IncomeFragment extends BaseRecordFragment {
-
+public class IncomeFragment extends RecordFragment {
 
     @Override
-    public void loadDataToGV() {
-        super.loadDataToGV();
-        //获取数据库当中的数据源
-        List<TypeBean> inlist = DBManager.getTypeList(1);
-        typeList.addAll(inlist);
-        adapter.notifyDataSetChanged();
-        typeTv.setText("其他");
-        typeIv.setImageResource(R.mipmap.in_qt_fs);
+    protected int getTypeKind() {
+        return 1;
     }
 
     @Override
-    public void saveAccountToDB() {
-        accountBean.setKind(1);
-        DBManager.insertItemToAccounttb(accountBean);
+    protected int getImageResource() {
+        return R.mipmap.in_qt_fs;
     }
 }

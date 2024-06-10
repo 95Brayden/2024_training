@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.midemo.bean.UserBean;
-import com.example.midemo.db.DBOpenHelper;
+import com.example.midemo.utils.DBOpenHelper;
 
 // 定义UserDAO类，用于数据库操作
 public class UserDAO {

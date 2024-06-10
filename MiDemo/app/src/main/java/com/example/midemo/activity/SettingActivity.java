@@ -1,6 +1,5 @@
 package com.example.midemo.activity;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -10,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.midemo.R;
 import com.example.midemo.dao.AccountDAO;
-import com.example.midemo.db.DBManager;
 
 public class SettingActivity extends AppCompatActivity {
     private AccountDAO accountDAO;

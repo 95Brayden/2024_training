@@ -9,7 +9,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,7 +19,6 @@ import androidx.annotation.NonNull;
 import com.example.midemo.adapter.CalendarAdapter;
 import com.example.midemo.R;
 import com.example.midemo.dao.AccountDAO;
-import com.example.midemo.db.DBManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;

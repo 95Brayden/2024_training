@@ -5,13 +5,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.example.midemo.bean.AccountBean;
 import com.example.midemo.bean.BarChartItemBean;
 import com.example.midemo.bean.ChartItemBean;
-import com.example.midemo.db.DBManager;
-import com.example.midemo.db.DBOpenHelper;
+import com.example.midemo.utils.DBOpenHelper;
 import com.example.midemo.utils.FloatUtils;
 
 import java.util.ArrayList;
@@ -25,7 +23,10 @@ public class AccountDAO {
         DBOpenHelper helper = new DBOpenHelper(context);
         db = helper.getWritableDatabase();
     }
-
+    public AccountDAO(SQLiteDatabase db) {
+        this.db = db;
+    }
+    // 插入操作
     /**
      * 向记账表中插入一条数据
      *
@@ -44,6 +45,9 @@ public class AccountDAO {
         values.put("kind", bean.getKind());
         db.insert("accounttb", null, values);
     }
+
+    // 更新操作
+
     /**
      * 根据ID更新金额
      *
@@ -55,6 +59,8 @@ public class AccountDAO {
         values.put("money", newMoney);
         db.update("accounttb", values, "id=?", new String[]{String.valueOf(id)});
     }
+
+    // 查询操作
 
     /**
      * 获取某一天的所有支出或收入记录
@@ -198,14 +204,6 @@ public class AccountDAO {
         }
         return total;
     }
-    /**
-     * 根据ID删除一条记录
-     *
-     * @param id 记录ID
-     */
-    public void deleteItemFromAccountById(int id){
-        db.delete("accounttb", "id=?", new String[]{id + ""});
-    }
 
     /**
      * 根据备注搜索记录
@@ -252,22 +250,13 @@ public class AccountDAO {
         cursor.close();
         return list;
     }
-
-    /**
-     * 删除所有记录
-     */
-    public void deleteAllAccount(){
-        String sql = "delete from accounttb";
-        db.execSQL(sql);
-    }
-
     /**
      * 获取某月份每种类型的总金额
      *
      * @param year  年份
      * @param month 月份
      * @param kind  类型,支出=0，收入=1
-      * @return 图表项的列表
+     * @return 图表项的列表
      */
     public List<ChartItemBean> getChartItemListFromAccount(int year, int month, int kind) {
         List<ChartItemBean> list = new ArrayList<>();
@@ -327,4 +316,22 @@ public class AccountDAO {
         cursor.close();
         return list;
     }
+
+    // 删除操作
+    /**
+     * 根据ID删除一条记录
+     *
+     * @param id 记录ID
+     */
+    public void deleteItemFromAccountById(int id){
+        db.delete("accounttb", "id=?", new String[]{id + ""});
+    }
+
+    /**
+     * 删除所有记录
+     */
+    public void deleteAllAccount() {
+        db.delete("accounttb", null, null);
+    }
+
 }

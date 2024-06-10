@@ -14,7 +14,6 @@ import com.example.midemo.adapter.ChartVPAdapter;
 import com.example.midemo.dao.AccountDAO;
 import com.example.midemo.dialog.CalendarDialog;
 import com.example.midemo.R;
-import com.example.midemo.db.DBManager;
 import com.example.midemo.fragment.chart.IncomeChartFragment;
 import com.example.midemo.fragment.chart.OutcomChartFragment;
 

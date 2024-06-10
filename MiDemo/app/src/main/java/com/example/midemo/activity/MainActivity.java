@@ -1,4 +1,5 @@
 package com.example.midemo.activity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,14 +17,13 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.midemo.R;
+import com.example.midemo.adapter.AccountAdapter;
+import com.example.midemo.bean.AccountBean;
 import com.example.midemo.dao.AccountDAO;
 import com.example.midemo.dialog.BudgetDialog;
-import com.example.midemo.adapter.AccountAdapter;
 import com.example.midemo.dialog.EditDialog;
 import com.example.midemo.dialog.MoreDialog;
-import com.example.midemo.R;
-import com.example.midemo.bean.AccountBean;
-import com.example.midemo.db.DBManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView searchIv;
     Button editBtn;
     ImageButton moreBtn;
+
     AccountAdapter adapter;
     private AccountDAO accountDAO;
 
@@ -256,6 +257,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setTopTvShow();   //改变头布局TextView显示的内容
         });
     }
-
-
 }

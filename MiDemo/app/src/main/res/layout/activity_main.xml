@@ -7,11 +7,11 @@
     <RelativeLayout
         android:id="@+id/main_top_layout"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:layout_height="50dp">
         <TextView
             android:text="@string/app_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:padding="10dp"
@@ -23,9 +23,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@mipmap/search"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:padding="10dp"/>
     </RelativeLayout>
+
     <ListView
         android:id="@+id/main_lv"
         android:layout_width="match_parent"
@@ -42,7 +43,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@mipmap/more"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
         android:background="@drawable/main_morebtn_bg"/>
@@ -53,12 +54,11 @@
         android:layout_height="50dp"
         android:layout_alignBottom="@id/main_btn_more"
         android:background="@drawable/main_recordbtn_bg"
-        android:layout_toLeftOf="@id/main_btn_more"
+        android:layout_toStartOf="@id/main_btn_more"
         android:text="@string/editone"
         android:textStyle="bold"
         android:textColor="@color/white"
-        android:drawableLeft="@mipmap/edit"
-        android:onClick="onButtonClick"
+        android:drawableStart="@mipmap/edit"
         android:gravity="center_vertical"/>
 
 </RelativeLayout>
