@@ -44,7 +44,7 @@ public class ChartItemAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_chartfrag_lv,parent,false);
             holder = new ViewHolder(convertView);
@@ -64,7 +64,7 @@ public class ChartItemAdapter extends BaseAdapter {
         return convertView;
     }
 
-    class ViewHolder{
+    static class ViewHolder{
         TextView typeTv,ratioTv,totalTv;
         ImageView iv;
         public ViewHolder(View view){

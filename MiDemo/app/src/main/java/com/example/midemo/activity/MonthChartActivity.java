@@ -14,7 +14,7 @@ import com.example.midemo.adapter.ChartVPAdapter;
 import com.example.midemo.dialog.CalendarDialog;
 import com.example.midemo.R;
 import com.example.midemo.db.DBManager;
-import com.example.midemo.fragment.chart.IncomChartFragment;
+import com.example.midemo.fragment.chart.IncomeChartFragment;
 import com.example.midemo.fragment.chart.OutcomChartFragment;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class MonthChartActivity extends AppCompatActivity {
     int month;
     int selectPos = -1,selectMonth =-1;
     List<Fragment>chartFragList;
-    private IncomChartFragment incomChartFragment;
+    private IncomeChartFragment incomeChartFragment;
     private OutcomChartFragment outcomChartFragment;
     private ChartVPAdapter chartVPAdapter;
 
@@ -56,17 +56,17 @@ public class MonthChartActivity extends AppCompatActivity {
     private void initFrag() {
         chartFragList = new ArrayList<>();
 //        添加Fragment的对象
-        incomChartFragment = new IncomChartFragment();
+        incomeChartFragment = new IncomeChartFragment();
         outcomChartFragment = new OutcomChartFragment();
 //        添加数据到Fragment当中
         Bundle bundle = new Bundle();
         bundle.putInt("year",year);
         bundle.putInt("month",month);
-        incomChartFragment.setArguments(bundle);
+        incomeChartFragment.setArguments(bundle);
         outcomChartFragment.setArguments(bundle);
 //        将Fragment添加到数据源当中
         chartFragList.add(outcomChartFragment);
-        chartFragList.add(incomChartFragment);
+        chartFragList.add(incomeChartFragment);
 //        使用适配器
         chartVPAdapter = new ChartVPAdapter(getSupportFragmentManager(), chartFragList);
         chartVp.setAdapter(chartVPAdapter);
@@ -131,7 +131,7 @@ public class MonthChartActivity extends AppCompatActivity {
                 MonthChartActivity.this.selectPos = selPos;
                 MonthChartActivity.this.selectMonth = month;
                 initStatistics(year,month);
-                incomChartFragment.setDate(year,month);
+                incomeChartFragment.setDate(year,month);
                 outcomChartFragment.setDate(year,month);
             }
         });

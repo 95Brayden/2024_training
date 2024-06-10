@@ -74,16 +74,17 @@ public class DBManager {
             String typename=cursor.getString(cursor.getColumnIndex("typename"));
             int imageId = cursor.getInt(cursor.getColumnIndex("imageId"));
             int sImageId = cursor.getInt(cursor.getColumnIndex("sImageId"));
-            int kind1 = cursor.getInt(cursor.getColumnIndex("kind"));
             int id = cursor.getInt(cursor.getColumnIndex("id"));
             TypeBean typeBean = new TypeBean(id, typename, imageId, sImageId, kind);
             list.add(typeBean);
         }
         return list;
     }
-    /*
-     * 向记账表当中插入一条元素
-     * */
+    /**
+     * 向记账表中插入一条数据
+     *
+     * @param bean 需要插入的AccountBean对象
+     */
     public static void insertItemToAccounttb(AccountBean bean){
         ContentValues values = new ContentValues();
         values.put("typename",bean.getTypename());
@@ -203,19 +204,6 @@ public class DBManager {
         }
         return total;
     }
-    /**
-     * 获取某一年的支出或者收入的总金额   kind：支出==0    收入===1
-     * */
-    public static float getSumMoneyOneYear(int year,int kind){
-        float total = 0.0f;
-        String sql = "select sum(money) from accounttb where year=? and kind=?";
-        Cursor cursor = db.rawQuery(sql, new String[]{year + "", kind + ""});
-        // 遍历
-        if (cursor.moveToFirst()) {
-            total = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
-        }
-        return total;
-    }
     /*
      * 根据传入的id，删除accounttb表当中的一条数据
      * */
@@ -285,7 +273,6 @@ public class DBManager {
         }
         return list;
     }
-
     /**
      * 获取这个月当中某一天收入支出最大的金额，金额是多少
      * */
@@ -293,23 +280,9 @@ public class DBManager {
         String sql = "select sum(money) from accounttb where year=? and month=? and kind=? group by day order by sum(money) desc";
         Cursor cursor = db.rawQuery(sql, new String[]{year + "", month + "", kind + ""});
         if (cursor.moveToFirst()) {
-            float money = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
-            return money;
+            float sum_money = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
+            return sum_money;
         }
         return 0;
-    }
-
-    /** 根据指定月份每一日收入或者支出的总钱数的集合*/
-    public static List<BarChartItemBean>getSumMoneyOneDayInMonth(int year, int month, int kind){
-        String sql = "select day,sum(money) from accounttb where year=? and month=? and kind=? group by day";
-        Cursor cursor = db.rawQuery(sql, new String[]{year + "", month + "", kind + ""});
-        List<BarChartItemBean>list = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            int day = cursor.getInt(cursor.getColumnIndex("day"));
-            float smoney = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
-            BarChartItemBean itemBean = new BarChartItemBean(year, month, day, smoney);
-            list.add(itemBean);
-        }
-        return list;
     }
 }

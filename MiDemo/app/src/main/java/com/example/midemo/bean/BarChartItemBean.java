@@ -38,11 +38,8 @@ public class BarChartItemBean {
         this.day = day;
     }
 
-    public float getSummoney() {
+    public float getSumMoney() {
         return summoney;
     }
 
-    public void setSummoney(float summoney) {
-        this.summoney = summoney;
-    }
 }

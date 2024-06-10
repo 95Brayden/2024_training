@@ -1,5 +1,7 @@
 package com.example.midemo.bean;
 
+import androidx.annotation.NonNull;
+
 public class ChartItemBean {
     int sImageId;
     String type;
@@ -27,5 +29,16 @@ public class ChartItemBean {
         this.type = type;
         this.ratio = ratio;
         this.totalMoney = totalMoney;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "ChartItemBean{" +
+                "sImageId=" + sImageId +
+                ", type='" + type + '\'' +
+                ", ratio=" + ratio +
+                ", totalMoney=" + totalMoney +
+                '}';
     }
 }
