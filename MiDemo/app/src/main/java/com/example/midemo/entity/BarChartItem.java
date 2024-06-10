@@ -1,13 +1,13 @@
-package com.example.midemo.bean;
+package com.example.midemo.entity;
 
 /* 用于描述绘制柱状图时，每一个柱子表示的对象*/
-public class BarChartItemBean {
+public class BarChartItem {
     private int year;
     private int month;
     private int day;
     private float summoney;
 
-    public BarChartItemBean(int year, int month, int day, float summoney) {
+    public BarChartItem(int year, int month, int day, float summoney) {
         this.year = year;
         this.month = month;
         this.day = day;
@@ -32,10 +32,6 @@ public class BarChartItemBean {
 
     public int getDay() {
         return day;
-    }
-
-    public void setDay(int day) {
-        this.day = day;
     }
 
     public float getSumMoney() {

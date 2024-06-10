@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.midemo.R;
 import com.example.midemo.adapter.ChartItemAdapter;
-import com.example.midemo.bean.ChartItemBean;
+import com.example.midemo.entity.ChartItem;
 import com.example.midemo.dao.AccountDAO;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -29,7 +29,7 @@ abstract public class BaseChartFragment extends Fragment {
     protected ListView chartLv;
     protected int year;
     protected int month;
-    protected List<ChartItemBean> mDatas;   // 数据源
+    protected List<ChartItem> mDatas;   // 数据源
     private ChartItemAdapter itemAdapter;
     protected BarChart barChart;     // 代表柱状图的控件
     protected TextView chartTv;     // 如果没有收支情况，显示的TextView
@@ -170,7 +170,7 @@ abstract public class BaseChartFragment extends Fragment {
      * @param kind 类型
      */
     public void loadData(int year, int month, int kind) {
-        List<ChartItemBean> list = accountDAO.getChartItemListFromAccount(year, month, kind);
+        List<ChartItem> list = accountDAO.getChartItemListFromAccount(year, month, kind);
         mDatas.clear();
         mDatas.addAll(list);
         itemAdapter.notifyDataSetChanged();

@@ -9,15 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.midemo.R;
-import com.example.midemo.bean.TypeBean;
+import com.example.midemo.entity.Type;
 
 import java.util.List;
 
 public class TypeBaseAdapter extends BaseAdapter {
     Context context;
-    List<TypeBean> mDatas;
+    List<Type> mDatas;
     public int selectPos = 0;  //选中位置
-    public TypeBaseAdapter(Context context, List<TypeBean> mDatas) {
+    public TypeBaseAdapter(Context context, List<Type> mDatas) {
         this.context = context;
         this.mDatas = mDatas;
     }
@@ -44,13 +44,13 @@ public class TypeBaseAdapter extends BaseAdapter {
         ImageView iv = convertView.findViewById(R.id.item_recordfrag_iv);
         TextView tv = convertView.findViewById(R.id.item_recordfrag_tv);
         //获取指定位置的数据源
-        TypeBean typeBean = mDatas.get(position);
-        tv.setText(typeBean.getTypename());
+        Type type = mDatas.get(position);
+        tv.setText(type.getTypename());
         //判断当前位置是否为选中位置，如果是选中位置，就设置为带颜色的图片，否则为灰色图片
         if (selectPos == position) {
-            iv.setImageResource(typeBean.getSimageId());
+            iv.setImageResource(type.getSimageId());
         }else{
-            iv.setImageResource(typeBean.getImageId());
+            iv.setImageResource(type.getImageId());
         }
         return convertView;
     }

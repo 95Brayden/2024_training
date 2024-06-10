@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.midemo.R;
-import com.example.midemo.bean.ChartItemBean;
+import com.example.midemo.entity.ChartItem;
 import com.example.midemo.utils.FloatUtils;
 
 import java.util.List;
@@ -19,9 +19,9 @@ import java.util.List;
 * */
 public class ChartItemAdapter extends BaseAdapter {
     Context context;
-    List<ChartItemBean> mDatas;
+    List<ChartItem> mDatas;
     LayoutInflater inflater;
-    public ChartItemAdapter(Context context, List<ChartItemBean> mDatas) {
+    public ChartItemAdapter(Context context, List<ChartItem> mDatas) {
         this.context = context;
         this.mDatas = mDatas;
         inflater = LayoutInflater.from(context);
@@ -53,7 +53,7 @@ public class ChartItemAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 //        获取显示内容
-        ChartItemBean bean = mDatas.get(position);
+        ChartItem bean = mDatas.get(position);
         holder.iv.setImageResource(bean.getsImageId());
         holder.typeTv.setText(bean.getType());
         float ratio = bean.getRatio();

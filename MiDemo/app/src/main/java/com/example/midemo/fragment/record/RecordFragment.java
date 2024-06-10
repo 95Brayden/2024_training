@@ -3,9 +3,8 @@ package com.example.midemo.fragment.record;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
-import com.example.midemo.bean.TypeBean;
+import com.example.midemo.entity.Type;
 import com.example.midemo.dao.AccountDAO;
 import com.example.midemo.dao.TypeDAO;
 
@@ -30,7 +29,7 @@ public abstract class RecordFragment extends BaseRecordFragment {
     public void loadDataToGV() {
         super.loadDataToGV();
         // 获取数据库当中的数据源
-        List<TypeBean> list = typeDAO.getTypeList(getTypeKind());
+        List<Type> list = typeDAO.getTypeList(getTypeKind());
         typeList.addAll(list);
         adapter.notifyDataSetChanged();
         typeTv.setText("其他");
@@ -39,8 +38,8 @@ public abstract class RecordFragment extends BaseRecordFragment {
 
     @Override
     public void saveAccountToDB() {
-        accountBean.setKind(getTypeKind());
-        accountDAO.insertAccount(accountBean);
+        accountItem.setKind(getTypeKind());
+        accountDAO.insertAccount(accountItem);
     }
 
     protected abstract int getTypeKind();

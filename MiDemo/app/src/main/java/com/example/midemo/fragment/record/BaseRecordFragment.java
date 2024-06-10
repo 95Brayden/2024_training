@@ -18,8 +18,8 @@ import com.example.midemo.adapter.TypeBaseAdapter;
 import com.example.midemo.dialog.RemarkDialog;
 import com.example.midemo.dialog.SelectTimeDialog;
 import com.example.midemo.R;
-import com.example.midemo.bean.AccountBean;
-import com.example.midemo.bean.TypeBean;
+import com.example.midemo.entity.AccountItem;
+import com.example.midemo.entity.Type;
 import com.example.midemo.utils.KeyBoardUtils;
 
 import java.text.SimpleDateFormat;
@@ -35,16 +35,16 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
     ImageView typeIv;
     TextView typeTv,remarkTv,timeTv;
     GridView typeGv;
-    List<TypeBean>typeList;
+    List<Type>typeList;
     TypeBaseAdapter adapter;
-    AccountBean accountBean;   //将需要插入到记账本当中的数据保存成对象的形式
+    AccountItem accountItem;   //将需要插入到记账本当中的数据保存成对象的形式
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        accountBean = new AccountBean();   //创建对象
-        accountBean.setTypename("其他");
-        accountBean.setsImageId(R.mipmap.ic_qita_fs);
+        accountItem = new AccountItem();   //创建对象
+        accountItem.setTypename("其他");
+        accountItem.setsImageId(R.mipmap.ic_qita_fs);
     }
     @Override
     public void onClick(View v) {
@@ -64,10 +64,10 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
         //设定确定按钮被点击了的监听器
         dialog.setOnEnsureListener((time, year, month, day) -> {
             timeTv.setText(time);
-            accountBean.setTime(time);
-            accountBean.setYear(year);
-            accountBean.setMonth(month);
-            accountBean.setDay(day);
+            accountItem.setTime(time);
+            accountItem.setYear(year);
+            accountItem.setMonth(month);
+            accountItem.setDay(day);
         });
     }
 
@@ -80,7 +80,7 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
             String msg = dialog.getEditText();
             if (!TextUtils.isEmpty(msg)) {
                 remarkTv.setText(msg);
-                accountBean.setRemark(msg);
+                accountItem.setRemark(msg);
             }
             dialog.cancel();
         });
@@ -103,15 +103,15 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
         String time = sdf.format(date);
         timeTv.setText(time);
-        accountBean.setTime(time);
+        accountItem.setTime(time);
 
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH)+1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        accountBean.setYear(year);
-        accountBean.setMonth(month);
-        accountBean.setDay(day);
+        accountItem.setYear(year);
+        accountItem.setMonth(month);
+        accountItem.setDay(day);
     }
 
     /* 设置GridView每一项的点击事件*/
@@ -119,13 +119,13 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
         typeGv.setOnItemClickListener((parent, view, position, id) -> {
             adapter.selectPos = position;
             adapter.notifyDataSetInvalidated();  //提示绘制发生变化了
-            TypeBean typeBean = typeList.get(position);
-            String typename = typeBean.getTypename();
+            Type type = typeList.get(position);
+            String typename = type.getTypename();
             typeTv.setText(typename);
-            accountBean.setTypename(typename);
-            int simageId = typeBean.getSimageId();
+            accountItem.setTypename(typename);
+            int simageId = type.getSimageId();
             typeIv.setImageResource(simageId);
-            accountBean.setsImageId(simageId);
+            accountItem.setsImageId(simageId);
         });
     }
 
@@ -159,7 +159,7 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
             }
             float money = Float.parseFloat(moneyStr);
             //获取记录的信息，保存在数据库当中
-            accountBean.setMoney(money);
+            accountItem.setMoney(money);
             saveAccountToDB();
             // 返回上一级页面
             getActivity().finish();

@@ -9,18 +9,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.midemo.R;
-import com.example.midemo.bean.AccountBean;
+import com.example.midemo.entity.AccountItem;
 
 import java.util.Calendar;
 import java.util.List;
 
 public class AccountAdapter extends BaseAdapter {
     Context context;
-    List<AccountBean> mDatas;
+    List<AccountItem> mDatas;
     LayoutInflater inflater;
     int year, month, day;
 
-    public AccountAdapter(Context context, List<AccountBean> mDatas) {
+    public AccountAdapter(Context context, List<AccountItem> mDatas) {
         this.context = context;
         this.mDatas = mDatas;
         inflater = LayoutInflater.from(context);
@@ -55,7 +55,7 @@ public class AccountAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        AccountBean bean = mDatas.get(position);
+        AccountItem bean = mDatas.get(position);
         holder.typeIv.setImageResource(bean.getsImageId());
         holder.typeTv.setText(bean.getTypename());
         holder.remarkTv.setText(bean.getRemark());

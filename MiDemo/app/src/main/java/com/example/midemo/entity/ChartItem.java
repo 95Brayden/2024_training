@@ -1,8 +1,8 @@
-package com.example.midemo.bean;
+package com.example.midemo.entity;
 
 import androidx.annotation.NonNull;
 
-public class ChartItemBean {
+public class ChartItem {
     int sImageId;
     String type;
     float ratio;   //所占比例
@@ -24,7 +24,7 @@ public class ChartItemBean {
         return totalMoney;
     }
 
-    public ChartItemBean(int sImageId, String type, float ratio, float totalMoney) {
+    public ChartItem(int sImageId, String type, float ratio, float totalMoney) {
         this.sImageId = sImageId;
         this.type = type;
         this.ratio = ratio;

@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.midemo.R;
-import com.example.midemo.bean.UserBean;
+import com.example.midemo.entity.User;
 import com.example.midemo.dao.UserDAO;
 
 public class LogOnActivity extends Activity {
@@ -31,7 +31,7 @@ public class LogOnActivity extends Activity {
             String strUserName = userName.getText().toString().trim();
             String strPassWord = passWord.getText().toString().trim();
 
-            UserBean user = new UserBean();
+            User user = new User();
             user.setUsername(strUserName);
             user.setPassword(strPassWord);
 

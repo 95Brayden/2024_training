@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.midemo.R;
 import com.example.midemo.adapter.AccountAdapter;
-import com.example.midemo.bean.AccountBean;
+import com.example.midemo.entity.AccountItem;
 import com.example.midemo.dao.AccountDAO;
 import com.example.midemo.dialog.BudgetDialog;
 import com.example.midemo.dialog.EditDialog;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     int year,month,day;
     //声明数据源
-    List<AccountBean> mDatas;
+    List<AccountItem> mDatas;
     //头布局相关控件
     View headerView;
     TextView topOutTv,topInTv,topbudgetTv,topConTv;
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return false;
             }
             int pos = position-1;
-            AccountBean clickBean = mDatas.get(pos);  //获取正在被点击的这条信息
+            AccountItem clickBean = mDatas.get(pos);  //获取正在被点击的这条信息
 
             //弹出提示用户是否删除的对话框
             showDeleteItemDialog(clickBean);
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
             }
             int pos = position - 1;
-            AccountBean clickBean = mDatas.get(pos);  // 获取正在被点击的这条信息
+            AccountItem clickBean = mDatas.get(pos);  // 获取正在被点击的这条信息
             // 弹出修改金额对话框
             showEditDialog(clickBean);
         });
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // 加载数据库数据
     private void loadDBData() {
-        List<AccountBean> list = accountDAO.getAccountListInDay(year, month, day);
+        List<AccountItem> list = accountDAO.getAccountListInDay(year, month, day);
         mDatas.clear();
         mDatas.addAll(list);
         adapter.notifyDataSetChanged();
@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
     /* 弹出是否删除某一条记录的对话框*/
-    private void showDeleteItemDialog(final AccountBean clickBean) {
+    private void showDeleteItemDialog(final AccountItem clickBean) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("提示信息").setMessage("您确定要删除这条记录么？")
                 .setNegativeButton("取消",null)
@@ -246,8 +246,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
     /** 显示修改金额设置对话框*/
-    private void showEditDialog(AccountBean accountBean) {
-        EditDialog dialog = new EditDialog(this, accountBean.getId(), accountBean.getMoney());
+    private void showEditDialog(AccountItem accountItem) {
+        EditDialog dialog = new EditDialog(this, accountItem.getId(), accountItem.getMoney());
         dialog.show();
         dialog.setDialogSize();
         dialog.setOnEnsureListener((id, money) -> {

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.midemo.bean.TypeBean;
+import com.example.midemo.entity.Type;
 import com.example.midemo.utils.DBOpenHelper;
 
 import java.util.ArrayList;
@@ -24,8 +24,8 @@ public class TypeDAO {
         this.db = db;
     }
 
-    public List<TypeBean> getTypeList(int kind) {
-        List<TypeBean> list = new ArrayList<>();
+    public List<Type> getTypeList(int kind) {
+        List<Type> list = new ArrayList<>();
         String sql = "select * from type where kind = " + kind;
         Cursor cursor = db.rawQuery(sql, null);
         while (cursor.moveToNext()) {
@@ -33,8 +33,8 @@ public class TypeDAO {
             int imageId = cursor.getInt(cursor.getColumnIndex("imageId"));
             int sImageId = cursor.getInt(cursor.getColumnIndex("sImageId"));
             int id = cursor.getInt(cursor.getColumnIndex("id"));
-            TypeBean typeBean = new TypeBean(id, typename, imageId, sImageId, kind);
-            list.add(typeBean);
+            Type type = new Type(id, typename, imageId, sImageId, kind);
+            list.add(type);
         }
         cursor.close();
         return list;

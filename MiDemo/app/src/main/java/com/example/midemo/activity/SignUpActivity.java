@@ -8,7 +8,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.midemo.R;
-import com.example.midemo.bean.UserBean;
+import com.example.midemo.entity.User;
 import com.example.midemo.dao.UserDAO;
 
 public class SignUpActivity extends Activity {
@@ -32,7 +32,7 @@ public class SignUpActivity extends Activity {
             String strPassWord = passWord.getText().toString().trim();
 
             if (!strUserName.isEmpty() && !strPassWord.isEmpty()) {
-                UserBean user = new UserBean();
+                User user = new User();
                 user.setUsername(strUserName);
                 user.setPassword(strPassWord);
 

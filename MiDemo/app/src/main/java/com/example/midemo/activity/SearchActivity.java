@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.midemo.R;
 import com.example.midemo.adapter.AccountAdapter;
-import com.example.midemo.bean.AccountBean;
+import com.example.midemo.entity.AccountItem;
 import com.example.midemo.dao.AccountDAO;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class SearchActivity extends AppCompatActivity {
     ListView searchLv;
     EditText searchEt;
     TextView emptyTv;
-    List<AccountBean>mDatas;   //数据源
+    List<AccountItem>mDatas;   //数据源
     AccountAdapter accountAdapter;    //适配器对象
     private AccountDAO accountDAO;
 
@@ -58,7 +58,7 @@ public class SearchActivity extends AppCompatActivity {
                     return;
                 }
                 //开始搜索
-                List<AccountBean> list = accountDAO.getAccountListByRemark(msg);
+                List<AccountItem> list = accountDAO.getAccountListByRemark(msg);
                 mDatas.clear();
                 mDatas.addAll(list);
                 accountAdapter.notifyDataSetChanged();

@@ -4,7 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.midemo.bean.BarChartItemBean;
+import com.example.midemo.entity.BarChartItem;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -42,7 +42,7 @@ public abstract class ChartFragment extends BaseChartFragment {
     protected void setAxisData(int year, int month) {
         List<IBarDataSet> sets = new ArrayList<>();
         // 获取这个月每天的支出或收入总金额
-        List<BarChartItemBean> list = accountDAO.getSumMoneyOneDayInMonth(year, month, kind);
+        List<BarChartItem> list = accountDAO.getSumMoneyOneDayInMonth(year, month, kind);
 
         if (list.isEmpty()) {
             barChart.setVisibility(View.GONE);
@@ -59,7 +59,7 @@ public abstract class ChartFragment extends BaseChartFragment {
                 barEntries1.add(entry);
             }
 
-            for (BarChartItemBean itemBean : list) {
+            for (BarChartItem itemBean : list) {
                 int day = itemBean.getDay();   // 获取日期
                 // 根据天数，获取x轴的位置
                 int xIndex = day - 1;

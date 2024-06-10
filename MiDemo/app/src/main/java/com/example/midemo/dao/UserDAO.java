@@ -7,7 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.example.midemo.bean.UserBean;
+import com.example.midemo.entity.User;
 import com.example.midemo.utils.DBOpenHelper;
 
 // 定义UserDAO类，用于数据库操作
@@ -29,7 +29,7 @@ public class UserDAO {
         dbHelper.close();
     }
 
-    public void addUser(UserBean user) { // 添加用户方法，接收UserBean对象
+    public void addUser(User user) { // 添加用户方法，接收UserBean对象
         ContentValues values = new ContentValues(); // 创建ContentValues对象
         values.put(DBOpenHelper.COLUMN_USERNAME, user.getUsername()); // 将用户名放入ContentValues
         values.put(DBOpenHelper.COLUMN_PASSWORD, user.getPassword()); // 将密码放入ContentValues
@@ -37,7 +37,7 @@ public class UserDAO {
     }
 
     // 检查用户方法，接收UserBean对象
-    public boolean checkUser(UserBean user) {
+    public boolean checkUser(User user) {
         String[] columns = {
                 DBOpenHelper.COLUMN_ID
         };

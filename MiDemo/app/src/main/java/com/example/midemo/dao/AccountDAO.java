@@ -6,9 +6,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.midemo.bean.AccountBean;
-import com.example.midemo.bean.BarChartItemBean;
-import com.example.midemo.bean.ChartItemBean;
+import com.example.midemo.entity.AccountItem;
+import com.example.midemo.entity.BarChartItem;
+import com.example.midemo.entity.ChartItem;
 import com.example.midemo.utils.DBOpenHelper;
 import com.example.midemo.utils.FloatUtils;
 
@@ -32,7 +32,7 @@ public class AccountDAO {
      *
      * @param bean 需要插入的AccountBean对象
      */
-    public void insertAccount(AccountBean bean) {
+    public void insertAccount(AccountItem bean) {
         ContentValues values = new ContentValues();
         values.put("typename", bean.getTypename());
         values.put("sImageId", bean.getsImageId());
@@ -70,12 +70,12 @@ public class AccountDAO {
      * @param day   日期
      * @return 记录的列表
      */
-    public List<AccountBean> getAccountListInDay(int year, int month, int day) {
-        List<AccountBean> list = new ArrayList<>();
+    public List<AccountItem> getAccountListInDay(int year, int month, int day) {
+        List<AccountItem> list = new ArrayList<>();
         String sql = "select * from account where year=? and month=? and day=? order by id desc";
         Cursor cursor = db.rawQuery(sql, new String[]{year + "", month + "", day + ""});
         while (cursor.moveToNext()) {
-            AccountBean accountBean = new AccountBean(
+            AccountItem accountItem = new AccountItem(
                     cursor.getInt(cursor.getColumnIndex("id")),
                     cursor.getString(cursor.getColumnIndex("typename")),
                     cursor.getInt(cursor.getColumnIndex("sImageId")),
@@ -85,7 +85,7 @@ public class AccountDAO {
                     year, month, day,
                     cursor.getInt(cursor.getColumnIndex("kind"))
             );
-            list.add(accountBean);
+            list.add(accountItem);
         }
         cursor.close();
         return list;
@@ -97,13 +97,13 @@ public class AccountDAO {
      * @param month 月份
      * @return 记录的列表
      */
-    public List<AccountBean> getAccountListInMonth(int year, int month) {
-        List<AccountBean> list = new ArrayList<>();
+    public List<AccountItem> getAccountListInMonth(int year, int month) {
+        List<AccountItem> list = new ArrayList<>();
         String sql = "select * from account where year=? and month=? order by time desc";
         Cursor cursor = db.rawQuery(sql, new String[]{year + "", month + ""});
         // 遍历符合要求的每一行数据
         while (cursor.moveToNext()) {
-            AccountBean accountBean = new AccountBean(
+            AccountItem accountItem = new AccountItem(
                     cursor.getInt(cursor.getColumnIndex("id")),
                     cursor.getString(cursor.getColumnIndex("typename")),
                     cursor.getInt(cursor.getColumnIndex("sImageId")),
@@ -114,7 +114,7 @@ public class AccountDAO {
                     cursor.getInt(cursor.getColumnIndex("day")),
                     cursor.getInt(cursor.getColumnIndex("kind"))
             );
-            list.add(accountBean);
+            list.add(accountItem);
         }
         cursor.close();
         return list;
@@ -127,14 +127,14 @@ public class AccountDAO {
      * @param ascending 是否升序
      * @return 记录的列表
      */
-    public List<AccountBean> getAccountListInMonthByMoney(int year, int month,boolean ascending) {
-        List<AccountBean> list = new ArrayList<>();
+    public List<AccountItem> getAccountListInMonthByMoney(int year, int month, boolean ascending) {
+        List<AccountItem> list = new ArrayList<>();
         String order = ascending ? "asc" : "desc";
         String sql = "select * from account where year=? and month=? order by money " + order;
         Cursor cursor = db.rawQuery(sql, new String[]{year + "", month + ""});
         // 遍历符合要求的每一行数据
         while (cursor.moveToNext()) {
-            AccountBean accountBean = new AccountBean(
+            AccountItem accountItem = new AccountItem(
                     cursor.getInt(cursor.getColumnIndex("id")),
                     cursor.getString(cursor.getColumnIndex("typename")),
                     cursor.getInt(cursor.getColumnIndex("sImageId")),
@@ -145,7 +145,7 @@ public class AccountDAO {
                     cursor.getInt(cursor.getColumnIndex("day")),
                     cursor.getInt(cursor.getColumnIndex("kind"))
             );
-            list.add(accountBean);
+            list.add(accountItem);
         }
         cursor.close();
         return list;
@@ -211,12 +211,12 @@ public class AccountDAO {
      * @param remark 备注
      * @return 记录的列表
      */
-    public List<AccountBean> getAccountListByRemark(String remark) {
-        List<AccountBean> list = new ArrayList<>();
+    public List<AccountItem> getAccountListByRemark(String remark) {
+        List<AccountItem> list = new ArrayList<>();
         String sql = "select * from account where remark like '%" + remark + "%'";
         Cursor cursor = db.rawQuery(sql, null);
         while (cursor.moveToNext()) {
-            AccountBean accountBean = new AccountBean(
+            AccountItem accountItem = new AccountItem(
                     cursor.getInt(cursor.getColumnIndex("id")),
                     cursor.getString(cursor.getColumnIndex("typename")),
                     cursor.getInt(cursor.getColumnIndex("sImageId")),
@@ -228,7 +228,7 @@ public class AccountDAO {
                     cursor.getInt(cursor.getColumnIndex("day")),
                     cursor.getInt(cursor.getColumnIndex("kind"))
             );
-            list.add(accountBean);
+            list.add(accountItem);
         }
         cursor.close();
         return list;
@@ -258,8 +258,8 @@ public class AccountDAO {
      * @param kind  类型,支出=0，收入=1
      * @return 图表项的列表
      */
-    public List<ChartItemBean> getChartItemListFromAccount(int year, int month, int kind) {
-        List<ChartItemBean> list = new ArrayList<>();
+    public List<ChartItem> getChartItemListFromAccount(int year, int month, int kind) {
+        List<ChartItem> list = new ArrayList<>();
         float sumMoneyOneMonth = getSumMoneyOneMonth(year, month, kind);
         String sql = "select typename,sImageId,sum(money)as total from account where year=? and month=? and kind=? group by typename order by total desc";
         Cursor cursor = db.rawQuery(sql, new String[]{year + "", month + "", kind + ""});
@@ -268,7 +268,7 @@ public class AccountDAO {
             String typename = cursor.getString(cursor.getColumnIndex("typename"));
             float total = cursor.getFloat(cursor.getColumnIndex("total"));
             float ratio = FloatUtils.div(total, sumMoneyOneMonth);
-            ChartItemBean bean = new ChartItemBean(sImageId, typename, ratio, total);
+            ChartItem bean = new ChartItem(sImageId, typename, ratio, total);
             list.add(bean);
         }
         cursor.close();
@@ -303,14 +303,14 @@ public class AccountDAO {
      * @param kind  类型，支出=0，收入=1
      * @return 条形图项的列表
      */
-    public List<BarChartItemBean> getSumMoneyOneDayInMonth(int year, int month, int kind) {
-        List<BarChartItemBean> list = new ArrayList<>();
+    public List<BarChartItem> getSumMoneyOneDayInMonth(int year, int month, int kind) {
+        List<BarChartItem> list = new ArrayList<>();
         String sql = "select day, sum(money) from account where year=? and month=? and kind=? group by day";
         Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(year), String.valueOf(month), String.valueOf(kind)});
         while (cursor.moveToNext()) {
             int day = cursor.getInt(cursor.getColumnIndex("day"));
             float sumMoney = cursor.getFloat(cursor.getColumnIndex("sum(money)"));
-            BarChartItemBean itemBean = new BarChartItemBean(year, month, day, sumMoney);
+            BarChartItem itemBean = new BarChartItem(year, month, day, sumMoney);
             list.add(itemBean);
         }
         cursor.close();

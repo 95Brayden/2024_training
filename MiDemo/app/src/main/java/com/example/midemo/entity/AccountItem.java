@@ -1,6 +1,6 @@
-package com.example.midemo.bean;
+package com.example.midemo.entity;
 /** 描述记录一条数据的相关内容类*/
-public class AccountBean {
+public class AccountItem {
     int id;
     String typename;   //类型
     int sImageId;   //被选中类型图片
@@ -92,10 +92,10 @@ public class AccountBean {
         this.kind = kind;
     }
 
-    public AccountBean() {
+    public AccountItem() {
     }
 
-    public AccountBean(int id, String typename, int sImageId, String remark, float money, String time, int year, int month, int day, int kind) {
+    public AccountItem(int id, String typename, int sImageId, String remark, float money, String time, int year, int month, int day, int kind) {
         this.id = id;
         this.typename = typename;
         this.sImageId = sImageId;

@@ -1,18 +1,12 @@
-package com.example.midemo.bean;
+package com.example.midemo.entity;
 
-public class UserBean {
+public class User {
     private int id;
     private String username;
     private String password;
 
     // 构造函数
-    public UserBean() {
-    }
-
-    public UserBean(int id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
+    public User() {
     }
 
     // getter 和 setter 方法

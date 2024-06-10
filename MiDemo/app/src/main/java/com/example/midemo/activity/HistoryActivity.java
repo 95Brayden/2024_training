@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.midemo.R;
 import com.example.midemo.adapter.AccountAdapter;
-import com.example.midemo.bean.AccountBean;
+import com.example.midemo.entity.AccountItem;
 import com.example.midemo.dao.AccountDAO;
 import com.example.midemo.dialog.CalendarDialog;
 
@@ -23,7 +23,7 @@ import java.util.List;
 public class HistoryActivity extends AppCompatActivity {
     ListView historyLv;
     TextView timeTv;
-    List<AccountBean> mDatas;
+    List<AccountItem> mDatas;
     AccountAdapter adapter;
     int year,month;
     int dialogSelPos = -1;
@@ -53,8 +53,8 @@ public class HistoryActivity extends AppCompatActivity {
     /*设置ListView每一个item的长按事件*/
     private void setLVClickListener() {
         historyLv.setOnItemLongClickListener((parent, view, position, id) -> {
-            AccountBean accountBean = mDatas.get(position);
-            deleteItem(accountBean);
+            AccountItem accountItem = mDatas.get(position);
+            deleteItem(accountItem);
             return false;
         });
     }
@@ -78,14 +78,14 @@ public class HistoryActivity extends AppCompatActivity {
         });
     }
 
-    private void deleteItem(final AccountBean accountBean) {
-        final int delId = accountBean.getId();
+    private void deleteItem(final AccountItem accountItem) {
+        final int delId = accountItem.getId();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("提示信息").setMessage("您确定要删除这条记录么？")
                 .setNegativeButton("取消",null)
                 .setPositiveButton("确定", (dialog, which) -> {
                     accountDAO.deleteItemFromAccountById(delId);
-                    mDatas.remove(accountBean);   //实时刷新，从数据源删除
+                    mDatas.remove(accountItem);   //实时刷新，从数据源删除
                     adapter.notifyDataSetChanged();
                 });
         builder.create().show();
@@ -93,13 +93,13 @@ public class HistoryActivity extends AppCompatActivity {
 
     /* 获取指定年份月份收支情况的列表*/
     private void loadData(int year,int month) {
-        List<AccountBean> list = accountDAO.getAccountListInMonth(year, month);
+        List<AccountItem> list = accountDAO.getAccountListInMonth(year, month);
         mDatas.clear();
         mDatas.addAll(list);
         adapter.notifyDataSetChanged();
     }
     private void loadData(int year, int month, boolean ascending) {
-        List<AccountBean> list = accountDAO.getAccountListInMonthByMoney(year, month,ascending);
+        List<AccountItem> list = accountDAO.getAccountListInMonthByMoney(year, month,ascending);
         mDatas.clear();
         mDatas.addAll(list);
         adapter.notifyDataSetChanged();
