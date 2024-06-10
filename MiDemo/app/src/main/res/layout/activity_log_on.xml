@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="25dp"
-                android:text="MIDemo\n登录"
+                android:text="MI记账本\n登录"
                 android:gravity="center"
                 android:textColor="#808080"
                 android:textSize="30dp" />
@@ -55,7 +55,7 @@
                         android:layout_marginBottom="15dp"
                         android:background="@drawable/translucent_edit"
                         android:hint="输入用户名"
-                        android:textSize="24dp"
+                        android:textSize="24sp"
                         android:singleLine="true" />
 
             </LinearLayout>
@@ -78,7 +78,7 @@
                         android:layout_marginBottom="15dp"
                         android:background="@drawable/translucent_edit"
                         android:hint="输入用户密码"
-                        android:textSize="24dp"
+                        android:textSize="24sp"
                         android:maxLength="16"
                         android:singleLine="true"
                         android:inputType="textPassword" />
@@ -93,7 +93,7 @@
                     android:orientation="horizontal">
 
                 <!--登录按钮-->
-                <Button
+                <android.widget.Button
                         android:id="@+id/LoginButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -103,10 +103,10 @@
                         android:textColor="@color/white"
                         android:background="@drawable/translucent_button"
                         android:text="登   录"
-                        android:textSize="24dp" />
+                        android:textSize="24sp" />
 
                 <!--注册按钮-->
-                <Button
+                <android.widget.Button
                         android:id="@+id/SignUpButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                         android:textColor="@color/white"
                         android:background="@drawable/translucent_button"
                         android:text="注   册"
-                        android:textSize="24dp" />
+                        android:textSize="24sp" />
 
             </LinearLayout>
 

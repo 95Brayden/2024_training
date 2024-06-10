@@ -21,19 +21,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="其他"
-                android:layout_toRightOf="@id/frag_record_iv"
+                android:layout_toEndOf="@id/frag_record_iv"
                 android:layout_centerVertical="true"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginStart="10dp"/>
         <EditText
                 android:id="@+id/frag_record_et_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:inputType="number"
-                android:background="@color/white"/>
+                android:background="@color/white"
+                android:hint="请输入金额"
+                style="@style/HintStyle"
+            />
     </RelativeLayout>
     <!-- 分割线-->
     <View
