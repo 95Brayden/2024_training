@@ -34,9 +34,9 @@
                 android:layout_centerVertical="true"
                 android:inputType="number"
                 android:background="@color/white"
+                android:gravity="end|center_vertical"
                 android:hint="请输入金额"
-                style="@style/HintStyle"
-            />
+                style="@style/HintStyle" />
     </RelativeLayout>
     <!-- 分割线-->
     <View

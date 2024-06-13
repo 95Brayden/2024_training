@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.midemo.entity.Type;
-import com.example.midemo.utils.DBOpenHelper;
+import com.example.midemo.utils.DataBaseManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class TypeDAO {
     private SQLiteDatabase db;
 
     public TypeDAO(Context context) {
-        DBOpenHelper helper = new DBOpenHelper(context);
+        DataBaseManager helper = new DataBaseManager(context);
         db = helper.getWritableDatabase();
     }
 

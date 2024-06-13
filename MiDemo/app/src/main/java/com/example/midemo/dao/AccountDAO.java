@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.midemo.entity.AccountItem;
 import com.example.midemo.entity.BarChartItem;
 import com.example.midemo.entity.ChartItem;
-import com.example.midemo.utils.DBOpenHelper;
+import com.example.midemo.utils.DataBaseManager;
 import com.example.midemo.utils.FloatUtils;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class AccountDAO {
     private SQLiteDatabase db;
 
     public AccountDAO(Context context) {
-        DBOpenHelper helper = new DBOpenHelper(context);
+        DataBaseManager helper = new DataBaseManager(context);
         db = helper.getWritableDatabase();
     }
     public AccountDAO(SQLiteDatabase db) {

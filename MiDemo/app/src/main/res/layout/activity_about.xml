@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:src="@mipmap/it_back"
             android:onClick="onClick"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginStart="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

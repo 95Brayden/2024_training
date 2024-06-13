@@ -35,6 +35,10 @@
             android:name=".activity.PostActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.SignUpActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".activity.LogOnActivity"
             android:exported="true">
             <intent-filter>
@@ -43,7 +47,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SignUpActivity" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 </manifest>

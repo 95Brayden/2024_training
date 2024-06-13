@@ -17,6 +17,6 @@
     </style>
     <style name="HintStyle">
         <item name="android:textColorHint">@android:color/darker_gray</item>
-        <item name="android:textSize">20sp</item> <!-- 设置字体大小为12sp -->
+        <item name="android:textSize">12sp</item> <!-- 设置字体大小为12sp -->
     </style>
 </resources>

@@ -28,6 +28,13 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    applicationVariants.all {
+        val variantName = name
+        outputs.all {
+            val outputImpl = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
+            outputImpl.outputFileName = "MICost-$variantName.apk"
+        }
+    }
 }
 
 dependencies {
@@ -41,6 +48,8 @@ dependencies {
     // MPAndroidChart
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("com.squareup.okhttp3:okhttp:4.9.2")
+    // 网络请求日志打印
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
     implementation("com.google.code.gson:gson:2.8.8")
     implementation("androidx.room:room-runtime:2.4.2")
     // 如果使用Kotlin，可以替换为Kapt

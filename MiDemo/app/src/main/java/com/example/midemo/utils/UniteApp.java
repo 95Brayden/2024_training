@@ -12,7 +12,7 @@ public class UniteApp extends Application {
     }
 
     private void initDB(Context context) {
-        DBOpenHelper helper = new DBOpenHelper(context);
+        DataBaseManager helper = new DataBaseManager(context);
         helper.getWritableDatabase(); // 这会触发onCreate和插入模拟数据
     }
 }

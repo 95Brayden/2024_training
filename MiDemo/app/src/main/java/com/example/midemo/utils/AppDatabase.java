@@ -7,7 +7,7 @@ import com.example.midemo.dao.PostDao;
 import com.example.midemo.entity.Post;
 
 // AppDatabase.java
-@Database(entities = {Post.class}, version = 1)
+@Database(entities = {Post.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract PostDao postDao();
 }

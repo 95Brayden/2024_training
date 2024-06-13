@@ -11,7 +11,7 @@ import com.example.midemo.R;
 import com.example.midemo.entity.AccountItem;
 import com.example.midemo.dao.AccountDAO;
 
-public class DBOpenHelper extends SQLiteOpenHelper {
+public class DataBaseManager extends SQLiteOpenHelper {
     // 数据库名称和版本号
     private static final String DATABASE_NAME = "midemo.db";
     private static final int DATABASE_VERSION = 1;
@@ -70,7 +70,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                     "day INTEGER, " +
                     "kind INTEGER);";
 
-    public DBOpenHelper(@Nullable Context context) {
+    public DataBaseManager(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -173,7 +173,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TYPE); // 删除旧的类型表
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACCOUNT); // 删除旧的记账表
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_POST); // 删除旧的Post表
-
         onCreate(db); // 重新创建所有表
     }
 }

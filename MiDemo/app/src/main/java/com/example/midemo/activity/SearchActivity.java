@@ -8,6 +8,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.midemo.R;
@@ -43,6 +44,7 @@ public class SearchActivity extends AppCompatActivity {
         searchEt = findViewById(R.id.search_et);
         searchLv = findViewById(R.id.search_lv);
         emptyTv = findViewById(R.id.search_tv_empty);
+        setLVLongClickListener();
     }
 
     public void onClick(View view) {
@@ -65,4 +67,28 @@ public class SearchActivity extends AppCompatActivity {
                 break;
         }
     }
+    /** 设置ListView的长按事件*/
+    private void setLVLongClickListener() {
+        searchLv.setOnItemLongClickListener((parent, view, position, id) -> {
+            AccountItem clickBean = mDatas.get(position);  //获取正在被点击的这条信息
+            //弹出提示用户是否删除的对话框
+            showDeleteItemDialog(clickBean);
+            return true;
+        });
+    }
+    /* 弹出是否删除某一条记录的对话框*/
+    private void showDeleteItemDialog(final AccountItem clickBean) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示信息").setMessage("您确定要删除这条记录么？")
+                .setNegativeButton("取消",null)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    int click_id = clickBean.getId();
+                    //执行删除的操作
+                    accountDAO.deleteItemFromAccountById(click_id);
+                    mDatas.remove(clickBean);   //实时刷新，移除集合当中的对象
+                    accountAdapter.notifyDataSetChanged();   //提示适配器更新数据
+                });
+        builder.create().show();   //显示对话框
+    }
+
 }

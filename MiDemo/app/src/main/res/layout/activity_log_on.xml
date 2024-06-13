@@ -37,10 +37,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="25dp"
-                android:text="MI记账本\n登录"
+                android:text="MI记账本"
                 android:gravity="center"
-                android:textColor="#808080"
-                android:textSize="30dp" />
+                android:textColor="#246B78"
+                android:textSize="35dp" />
 
         <!--嵌套线性布局-->
         <LinearLayout

@@ -7,5 +7,7 @@
     <color name="grey_f3f3f3">#f3f3f3</color>
     <color name="grey_7D7D7D">#7D7D7D</color>
     <color name="white">#ffffff</color>
-    <color name="green_006400">#006400</color>
+    <color name="green_006400">#246B78</color>
+    <color name="colorIncome">#FF0000</color> <!-- 红色 -->
+    <color name="colorExpense">#000000</color> <!-- 黑色 -->
 </resources>

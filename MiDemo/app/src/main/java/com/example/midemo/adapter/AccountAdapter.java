@@ -47,7 +47,7 @@ public class AccountAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_mainlv, parent, false);
             holder = new ViewHolder(convertView);
@@ -59,7 +59,14 @@ public class AccountAdapter extends BaseAdapter {
         holder.typeIv.setImageResource(bean.getsImageId());
         holder.typeTv.setText(bean.getTypename());
         holder.remarkTv.setText(bean.getRemark());
-        holder.moneyTv.setText("￥ " + bean.getMoney());
+        // 根据收入或支出类型设置相应的符号和颜色
+        if (bean.getKind() == 1) { // 收入
+            holder.moneyTv.setTextColor(context.getResources().getColor(R.color.colorIncome));
+            holder.moneyTv.setText("+" + bean.getMoney());
+        } else { // 支出
+            holder.moneyTv.setTextColor(context.getResources().getColor(R.color.colorExpense));
+            holder.moneyTv.setText("-" + bean.getMoney());
+        }
         if (bean.getYear() == year && bean.getMonth() == month && bean.getDay() == day) {
             String time = bean.getTime().split(" ")[1];
             holder.timeTv.setText("今天 " + time);
@@ -69,7 +76,7 @@ public class AccountAdapter extends BaseAdapter {
         return convertView;
     }
 
-    class ViewHolder {
+    static class ViewHolder {
         ImageView typeIv;
         TextView typeTv, remarkTv, timeTv, moneyTv;
 

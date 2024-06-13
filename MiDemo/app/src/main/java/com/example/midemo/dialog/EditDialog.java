@@ -47,10 +47,6 @@ public class EditDialog extends Dialog implements View.OnClickListener {
         });
     }
 
-    public EditDialog(@NonNull Context context) {
-        super(context);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

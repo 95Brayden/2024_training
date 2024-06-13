@@ -2,7 +2,9 @@ package com.example.midemo.fragment.record;
 
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,9 +90,20 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_outcome, container, false);
         initView(view);
+
+        // 确保光标始终在文本末端
+        moneyEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                moneyEt.setSelection(s.length());
+            }
+        });
         setInitTime();
         //给GridView填充数据的方法
         loadDataToGV();
