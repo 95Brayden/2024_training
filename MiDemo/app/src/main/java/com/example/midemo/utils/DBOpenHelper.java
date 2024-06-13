@@ -29,6 +29,20 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                     COLUMN_USERNAME + " TEXT, " +
                     COLUMN_PASSWORD + " TEXT);";
 
+    // Post表和列的定义
+    public static final String TABLE_POST = "post";
+    public static final String COLUMN_POST_ID = "id";
+    public static final String COLUMN_POST_USER_ID = "user_id";
+    public static final String COLUMN_POST_TITLE = "title";
+    public static final String COLUMN_POST_BODY = "body";
+    // 创建Post表的SQL语句
+    private static final String TABLE_CREATE_POST =
+            "CREATE TABLE " + TABLE_POST + " (" +
+                    COLUMN_POST_ID + " INTEGER PRIMARY KEY, " +
+                    COLUMN_POST_USER_ID + " INTEGER, " +
+                    COLUMN_POST_TITLE + " TEXT, " +
+                    COLUMN_POST_BODY + " TEXT);";
+
     // 类型表和记账表的定义
     public static final String TABLE_TYPE = "type";
     public static final String TABLE_ACCOUNT = "account";
@@ -66,6 +80,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL(TABLE_CREATE_USER); // 创建用户表
         db.execSQL(TABLE_CREATE_TYPE); // 创建类型表
         db.execSQL(TABLE_CREATE_ACCOUNT); // 创建记账表
+        db.execSQL(TABLE_CREATE_POST); // 创建Post表
+
         insertTypeData(db); // 插入类型数据
         insertAccountData(db); // 插入账单数据
         insertUserData(db); // 插入用户数据
@@ -156,6 +172,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER); // 删除旧的用户表
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TYPE); // 删除旧的类型表
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACCOUNT); // 删除旧的记账表
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_POST); // 删除旧的Post表
+
         onCreate(db); // 重新创建所有表
     }
 }

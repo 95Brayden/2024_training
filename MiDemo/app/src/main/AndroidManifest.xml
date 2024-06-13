@@ -32,6 +32,9 @@
             android:name=".activity.RecordActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.PostActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.LogOnActivity"
             android:exported="true">
             <intent-filter>
@@ -42,5 +45,5 @@
         </activity>
         <activity android:name=".activity.SignUpActivity" />
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
